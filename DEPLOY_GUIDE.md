@@ -21,7 +21,9 @@ Once project is created:
 
 **Add Backend Service:**
 - Click "Add Service" → "GitHub Repo" → Select `junmats/fambam`
-- In settings, set "Root Directory" to: `server`
+- **IMPORTANT:** In settings, set "Root Directory" to: `/server` (or leave empty if deploying from root)
+- **Build Command:** Leave empty (auto-detected)
+- **Start Command:** `node index.js`
 - Railway will auto-detect Node.js and deploy
 
 ### 4. Set Environment Variables

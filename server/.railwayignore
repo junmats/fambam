@@ -1,0 +1,11 @@
+# This file tells Railway to ignore the client folder
+# when deploying the backend service
+client/
+node_modules/
+.git/
+*.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
