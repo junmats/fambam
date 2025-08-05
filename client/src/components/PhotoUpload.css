@@ -1,0 +1,249 @@
+/* Photo Upload Component Styles */
+.photo-upload {
+  margin: 16px 0;
+}
+
+.photo-upload-container {
+  border: 2px dashed var(--facebook-border);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background: var(--facebook-white);
+  transition: border-color 0.2s ease;
+}
+
+.photo-upload-container:hover {
+  border-color: var(--facebook-blue);
+}
+
+/* Current Photo Display */
+.current-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.photo-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--facebook-light-gray);
+  box-shadow: var(--facebook-shadow);
+}
+
+.photo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* No Photo State */
+.no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--facebook-gray);
+}
+
+.photo-placeholder i {
+  font-size: 48px;
+  opacity: 0.5;
+}
+
+.photo-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Photo Cropper */
+.photo-cropper {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.cropper-header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.cropper-header h4 {
+  margin: 0 0 4px 0;
+  color: var(--facebook-blue);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cropper-header p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--facebook-gray);
+}
+
+.crop-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  max-height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: var(--facebook-shadow);
+}
+
+.crop-image {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.cropper-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Button Styles */
+.btn {
+  padding: 8px 16px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--facebook-blue);
+  border-color: var(--facebook-blue);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--facebook-blue-hover);
+  border-color: var(--facebook-blue-hover);
+}
+
+.btn-secondary {
+  background: var(--facebook-light-gray);
+  border-color: var(--facebook-border);
+  color: var(--facebook-gray);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--facebook-border);
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border-color: var(--facebook-blue);
+  color: var(--facebook-blue);
+}
+
+.btn-outline-primary:hover:not(:disabled) {
+  background: var(--facebook-blue);
+  color: white;
+}
+
+.btn-outline-secondary {
+  background: transparent;
+  border-color: var(--facebook-border);
+  color: var(--facebook-gray);
+}
+
+.btn-outline-secondary:hover:not(:disabled) {
+  background: var(--facebook-light-gray);
+}
+
+.btn-outline-danger {
+  background: transparent;
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover:not(:disabled) {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* Spinning animation for loading */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* React Crop Overrides */
+.ReactCrop {
+  max-width: 100%;
+}
+
+.ReactCrop__crop-selection {
+  border: 2px solid var(--facebook-blue);
+  background: rgba(24, 119, 242, 0.1);
+  border-radius: 50%; /* Make crop selection circular */
+}
+
+.ReactCrop__drag-handle {
+  background: var(--facebook-blue);
+  border: 2px solid white;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; /* Make drag handles circular */
+}
+
+.ReactCrop__drag-handle:after {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .photo-upload-container {
+    padding: 16px;
+  }
+  
+  .crop-container {
+    max-height: 300px;
+  }
+  
+  .cropper-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .photo-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .photo-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

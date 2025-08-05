@@ -1,0 +1,32 @@
+{
+  "name": "fambam-family-tree",
+  "version": "1.0.0",
+  "description": "A full-stack family tree web application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "theme:family": "./apply-family-theme.sh",
+    "theme:restore": "./restore-theme.sh"
+  },
+  "keywords": [
+    "family-tree",
+    "genealogy",
+    "react",
+    "nodejs",
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "dependencies": {
+    "axios": "^1.10.0",
+    "mysql2": "^3.14.1"
+  }
+}

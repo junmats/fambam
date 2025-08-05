@@ -1,0 +1,2351 @@
+/* Family Tree Dashboard - Slightly Darker Blue Theme */
+:root {
+  /* Slightly darker blue-dominant colors */
+  --family-primary: #2563eb;
+  --family-secondary: #3b82f6;
+  --family-tertiary: #60a5fa;
+  --family-light-blue: #93c5fd;
+  --family-sky: #0ea5e9;
+  
+  /* Subtle green accents */
+  --family-green: #10b981;
+  --family-light-green: #34d399;
+  --family-mint: #6ee7b7;
+  
+  /* White backgrounds */
+  --family-bg-light: #ffffff;
+  --family-bg-medium: #f8fafc;
+  --family-bg-tertiary: #f1f5f9;
+  --family-bg-card: #ffffff;
+  
+  /* Text colors */
+  --family-text-dark: #1e293b;
+  --family-text-medium: #475569;
+  --family-text-light: #64748b;
+  
+  /* Legacy colors */
+  --family-blue: #2563eb;
+  --family-heart: #e91e63;
+  --family-orange: #f59e0b;
+  --family-purple: #7c3aed;
+  
+  /* Legacy Facebook colors for compatibility */
+  --facebook-blue: var(--family-primary);
+  --facebook-blue-hover: var(--family-secondary);
+  --facebook-blue-dark: var(--family-tertiary);
+  --facebook-green: var(--family-green);
+  --facebook-gray: var(--family-text-medium);
+  --facebook-light-gray: rgba(37, 99, 235, 0.1);
+  --facebook-bg: var(--family-bg-light);
+  --facebook-white: var(--family-bg-card);
+  --facebook-border: rgba(37, 99, 235, 0.15);
+  --facebook-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+  --facebook-shadow-hover: 0 12px 35px rgba(37, 99, 235, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--facebook-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--family-bg-light) 0%, var(--family-bg-tertiary) 100%);
+  padding: 0;
+  position: relative;
+}
+
+/* Add warm background pattern */
+.dashboard::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.02) 0%, transparent 25%),
+    radial-gradient(circle at 80% 80%, rgba(218, 165, 32, 0.02) 0%, transparent 25%),
+    radial-gradient(circle at 40% 60%, rgba(205, 133, 63, 0.01) 0%, transparent 25%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Family Tree Hero Section */
+.dashboard-hero {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(218, 165, 32, 0.05) 100%);
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border-bottom: 3px solid rgba(139, 69, 19, 0.1);
+}
+
+.dashboard-hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.dashboard-hero h1::before {
+  content: '🌳';
+  font-size: 3rem;
+  animation: gentle-bounce 3s infinite;
+}
+
+.dashboard-hero p {
+  font-size: 1.3rem;
+  color: var(--family-text-medium);
+  margin-bottom: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Header Controls */
+.header-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Icon Button Styles */
+.btn-icon {
+  background: var(--facebook-gray-100);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 18px;
+  color: var(--facebook-text);
+}
+
+.btn-icon:hover {
+  background: var(--facebook-gray-200);
+  transform: scale(1.05);
+}
+
+.btn-icon:active {
+  transform: scale(0.95);
+}
+
+.btn-icon.active {
+  background: var(--facebook-blue);
+  color: var(--facebook-white);
+}
+
+.btn-icon.btn-warning {
+  background: var(--facebook-warning);
+  color: white;
+}
+
+.btn-icon.btn-warning:hover {
+  background: #e67e22;
+}
+
+.btn-icon:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-icon:disabled:hover {
+  transform: none;
+}
+
+/* Spinning animation for fixing generations */
+.btn-icon .bi-arrow-repeat {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip for icon buttons */
+.btn-icon[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--facebook-gray-800);
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1001;
+  pointer-events: none;
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--facebook-gray);
+  font-size: 16px;
+}
+
+.loading::before {
+  content: '\F1CE';
+  font-family: 'bootstrap-icons';
+  font-size: 24px;
+  margin-right: 8px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Main Content Area */
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+
+/* Family Stats */
+.family-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  background: linear-gradient(135deg, var(--facebook-white) 0%, var(--family-bg-medium) 100%);
+  padding: 20px 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: var(--facebook-shadow);
+  border: 1px solid var(--facebook-border);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--facebook-shadow-hover);
+}
+
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-green) 100%);
+}
+
+.stat-number {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: var(--facebook-gray);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.quick-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--facebook-white);
+  border: 1px solid var(--facebook-border);
+  border-radius: 8px;
+  color: var(--facebook-gray);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-shadow: var(--facebook-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-green) 100%);
+}
+
+.quick-action-btn:hover {
+  background: var(--facebook-bg);
+  transform: translateY(-1px);
+  box-shadow: var(--facebook-shadow-hover);
+}
+
+.quick-action-btn i {
+  color: var(--family-primary);
+  font-size: 16px;
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 4px;
+  background: var(--facebook-white);
+  border-radius: 8px;
+  box-shadow: var(--facebook-shadow);
+}
+
+.view-toggle .btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--facebook-gray);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.view-toggle .btn:hover {
+  background: var(--facebook-bg);
+}
+
+.view-toggle .btn.btn-primary {
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
+  color: var(--facebook-white);
+}
+
+/* View Headers */
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.view-header h2 {
+  margin: 0;
+  color: var(--facebook-gray);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Search Controls */
+.search-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding: 10px 16px 10px 40px;
+  border: 1px solid var(--facebook-border);
+  border-radius: 20px;
+  background: var(--facebook-white);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+  min-width: 240px;
+}
+
+.search-input:focus {
+  border-color: var(--facebook-blue);
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+}
+
+.search-input-group::before {
+  content: '\F52A';
+  font-family: 'bootstrap-icons';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--facebook-gray);
+  font-size: 14px;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--facebook-gray);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.clear-search-btn:hover {
+  background: var(--facebook-light-gray);
+}
+
+/* Modern Table Design */
+.table-container {
+  background: var(--facebook-white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--facebook-shadow);
+  border: 1px solid var(--facebook-border);
+}
+
+.members-table,
+.generation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.members-table th,
+.members-table td,
+.generation-table th,
+.generation-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--facebook-light-gray);
+}
+
+.members-table th,
+.generation-table th {
+  background: var(--facebook-bg);
+  font-weight: 600;
+  color: var(--facebook-gray);
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.members-table th:hover,
+.generation-table th:hover,
+.sortable:hover {
+  background: var(--facebook-light-gray);
+}
+
+.members-table tbody tr,
+.generation-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.members-table tbody tr:hover,
+.generation-table tbody tr:hover {
+  background: var(--facebook-bg);
+}
+
+.members-table tbody tr:last-child td,
+.generation-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Member Photo Styles */
+.member-photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 39px;
+  height: auto;
+}
+
+.member-photo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--facebook-light-gray);
+  box-shadow: var(--facebook-shadow);
+}
+
+.member-photo-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--facebook-light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--facebook-gray);
+  font-size: 24px;
+}
+
+/* Parent Photo Styles for Family Cards */
+.parent-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--facebook-white);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--facebook-border);
+}
+
+.parent-photo {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parent-photo-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--facebook-light-gray);
+  box-shadow: var(--facebook-shadow);
+}
+
+.parent-photo-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--facebook-light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--facebook-gray);
+  font-size: 36px;
+}
+
+.parent-info {
+  flex: 1;
+}
+
+/* Child Photo Styles for Family Cards */
+.child-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--facebook-bg);
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--facebook-light-gray);
+}
+
+.child-photo {
+  flex-shrink: 0;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.child-photo-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--facebook-light-gray);
+  box-shadow: var(--facebook-shadow);
+}
+
+.child-photo-placeholder {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--facebook-light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--facebook-gray);
+  font-size: 28px;
+}
+
+.child-info {
+  flex: 1;
+}
+
+/* Sort Icons */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.sort-icon {
+  margin-left: 8px;
+  font-size: 12px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.sortable:hover .sort-icon {
+  opacity: 1;
+}
+
+.sortable:focus {
+  outline: 2px solid var(--facebook-blue);
+  outline-offset: 2px;
+}
+
+/* Member Info in Tables */
+.member-name {
+  font-weight: 600;
+  color: var(--facebook-gray);
+  margin: 0;
+  font-size: 14px;
+}
+
+.maiden-name {
+  font-size: 12px;
+  color: var(--facebook-gray);
+  opacity: 0.7;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.living {
+  background: #e7f5e7;
+  color: #2e7d2e;
+}
+
+.status-badge.living::before {
+  content: '\F62A';
+  font-family: 'bootstrap-icons';
+}
+
+.status-badge.deceased {
+  background: #ffeaea;
+  color: #d32f2f;
+}
+
+.status-badge.deceased::before {
+  content: '\F62F';
+  font-family: 'bootstrap-icons';
+}
+
+/* Generation Groups */
+.generations-view {
+  background: transparent;
+  padding: 0;
+}
+
+.generations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 1rem;
+}
+
+.generation-group {
+  background: var(--facebook-white);
+  border-radius: 8px;
+  box-shadow: var(--facebook-shadow);
+  overflow: hidden;
+  border: 1px solid var(--facebook-border);
+  margin-bottom: 1rem;
+}
+
+.generation-header {
+  background: linear-gradient(135deg, var(--facebook-blue), var(--facebook-blue-dark));
+  color: #ffffff;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.generation-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+}
+
+.generation-header h3::before {
+  content: '\F4F3';
+  font-family: 'bootstrap-icons';
+}
+
+.member-count {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* Family Cards */
+.families-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+.family-card {
+  background: var(--facebook-white);
+  border-radius: 8px;
+  box-shadow: var(--facebook-shadow);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  border: 1px solid var(--facebook-border);
+}
+
+.family-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--facebook-shadow-hover);
+}
+
+.family-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--facebook-light-gray);
+  background: linear-gradient(135deg, #f8f9ff, #fff);
+}
+
+.family-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--facebook-gray);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.marriage-info {
+  font-size: 13px;
+  color: var(--facebook-gray);
+  opacity: 0.7;
+  margin: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.generation-info {
+  background: var(--facebook-blue);
+  color: var(--facebook-white);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.generation-info::before {
+  content: '\F4F3';
+  font-family: 'bootstrap-icons';
+}
+
+/* Parents and Children Sections */
+.parents-section,
+.children-section {
+  padding: 16px 20px;
+}
+
+.parents-section h4,
+.children-section h4 {
+  color: var(--facebook-gray);
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.parents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.parent-card {
+  background: var(--facebook-bg);
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid var(--facebook-light-gray);
+  text-align: center;
+}
+
+.parent-info h5 {
+  color: var(--facebook-gray);
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.parent-info p {
+  margin: 2px 0;
+  font-size: 11px;
+  color: var(--facebook-gray);
+  opacity: 0.8;
+}
+
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.child-card {
+  background: var(--facebook-bg);
+  border-radius: 6px;
+  padding: 8px;
+  border: 1px solid var(--facebook-light-gray);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.child-card:hover {
+  background: var(--facebook-light-gray);
+}
+
+.child-card h6 {
+  color: var(--facebook-gray);
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.child-card p {
+  margin: 2px 0;
+  font-size: 10px;
+  color: var(--facebook-gray);
+  opacity: 0.8;
+}
+
+/* Empty States */
+.no-families,
+.no-members,
+.no-generations {
+  text-align: center;
+  padding: 40px;
+  color: var(--facebook-gray);
+  background: var(--facebook-white);
+  border-radius: 8px;
+  box-shadow: var(--facebook-shadow);
+}
+
+.no-families::before,
+.no-members::before,
+.no-generations::before {
+  content: '\F4CB';
+  font-family: 'bootstrap-icons';
+  font-size: 48px;
+  color: var(--facebook-light-gray);
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* Members View */
+.members-view {
+  background: transparent;
+  padding: 0;
+}
+
+.members-view h2 {
+  color: var(--facebook-gray);
+  margin-bottom: 1.5rem;
+}
+
+/* Forms */
+.member-form,
+.relationship-form {
+  background: var(--facebook-white);
+  border-radius: 8px;
+  box-shadow: var(--facebook-shadow);
+  border: 1px solid var(--facebook-border);
+  margin-bottom: 20px;
+}
+
+.member-form h2,
+.relationship-form h2 {
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--facebook-light-gray);
+  color: var(--facebook-gray);
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-content {
+  padding: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--facebook-gray);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--facebook-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--facebook-white);
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--facebook-blue);
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+}
+
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Relationship Type Selector */
+.relationship-type-selector {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--facebook-bg);
+  border-radius: 6px;
+}
+
+.relationship-type-selector label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--facebook-blue);
+  color: var(--facebook-white);
+}
+
+.btn-primary:hover {
+  background: var(--facebook-blue-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--facebook-light-gray);
+  color: var(--facebook-gray);
+}
+
+.btn-secondary:hover {
+  background: #dadde1;
+}
+
+.btn-warning {
+  background: #f39c12;
+  color: var(--facebook-white);
+}
+
+.btn-warning:hover {
+  background: #e67e22;
+}
+
+.btn-danger {
+  background: #d32f2f;
+  color: white;
+  border: 1px solid #d32f2f;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.btn-danger:disabled {
+  background: #ffcdd2;
+  color: #f5f5f5;
+  border-color: #ffcdd2;
+  cursor: not-allowed;
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.btn-sm i {
+  font-size: 12px;
+}
+
+/* Delete Confirmation Modal */
+.delete-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.delete-confirmation-modal {
+  background: var(--facebook-white);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--facebook-light-gray);
+}
+
+.delete-confirmation-modal h3 {
+  color: var(--facebook-gray);
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.delete-confirmation-modal h3::before {
+  content: '\F33A';
+  font-family: 'bootstrap-icons';
+  color: #d32f2f;
+  font-size: 20px;
+}
+
+.delete-confirmation-modal p {
+  color: var(--facebook-text-secondary);
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.warning-text {
+  background: #fff3cd;
+  color: #856404;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ffeaa7;
+  font-size: 13px;
+  margin: 16px 0 !important;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Table Actions Column */
+.members-table th:last-child,
+.generation-table th:last-child {
+  width: 80px;
+  text-align: center;
+}
+
+.members-table td:last-child,
+.generation-table td:last-child {
+  text-align: center;
+}
+
+/* Delete Button Styles */
+.btn-icon-delete {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-delete i {
+  color: #d32f2f;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-delete:hover:not(:disabled) i {
+  color: #b71c1c;
+  transform: scale(1.1);
+}
+
+.btn-icon-delete:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-icon-delete:disabled i {
+  color: #ccc;
+}
+
+.btn-danger {
+  background: #d32f2f;
+  color: white;
+  border: 1px solid #d32f2f;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.btn-danger:disabled {
+  background: #ffcdd2;
+  color: #f5f5f5;
+  border-color: #ffcdd2;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.generation-fix-message {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.generation-fix-message.success {
+  background: #e7f5e7;
+  color: #2e7d2e;
+  border: 1px solid #c8e6c9;
+}
+
+.generation-fix-message.success::before {
+  content: '\F26A';
+  font-family: 'bootstrap-icons';
+}
+
+.generation-fix-message.error {
+  background: #ffeaea;
+  color: #d32f2f;
+  border: 1px solid #ffcdd2;
+}
+
+.generation-fix-message.error::before {
+  content: '\F658';
+  font-family: 'bootstrap-icons';
+}
+
+/* Non-admin banner */
+.non-admin-banner {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f1f8fe 100%);
+  border: 1px solid #bbdefb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.non-admin-banner .banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #1976d2;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.non-admin-banner .banner-content i {
+  font-size: 18px;
+  color: #1976d2;
+}
+
+/* Non-admin relationships message */
+.non-admin-relationships-message {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f1f5ff 100%);
+  border: 1px solid #e3f2fd;
+  border-radius: 12px;
+  padding: 32px;
+  margin: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.non-admin-relationships-message .message-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.non-admin-relationships-message .message-content i {
+  font-size: 48px;
+  color: #1976d2;
+  opacity: 0.8;
+}
+
+.non-admin-relationships-message .message-text h3 {
+  margin: 0 0 12px 0;
+  color: #1565c0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.non-admin-relationships-message .message-text p {
+  margin: 0;
+  color: #424242;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+/* Form Error Messages */
+.form-error-message {
+  background: #ffeaea;
+  color: #d32f2f;
+  border: 1px solid #ffcdd2;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-error-message i {
+  font-size: 16px;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.error-message::before {
+  content: '\F33A';
+  font-family: 'bootstrap-icons';
+  font-size: 12px;
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+}
+
+.form-group input.error:focus,
+.form-group select.error:focus,
+.form-group textarea.error:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .dashboard-content {
+    padding: 24px 16px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .families-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .search-controls {
+    width: 100%;
+    justify-content: stretch;
+  }
+  
+  .search-input {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 12px 16px;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 20px;
+  }
+  
+  .header-controls {
+    gap: 6px;
+  }
+  
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  .dashboard-content {
+    padding: 20px 12px;
+  }
+  
+  .view-toggle {
+    padding: 2px;
+  }
+  
+  .view-toggle .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .family-stats-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .relationship-type-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .table-container {
+    font-size: 13px;
+  }
+  
+  .members-table th,
+  .members-table td,
+  .generation-table th,
+  .generation-table td {
+    padding: 8px 12px;
+  }
+  
+  .member-name {
+    font-size: 0.9rem;
+  }
+  
+  .maiden-name {
+    font-size: 0.75rem;
+  }
+}
+
+/* Responsive Modal Design */
+@media (max-width: 768px) {
+  .member-form-modal,
+  .relationship-form-modal {
+    width: 95%;
+    max-height: 90vh;
+    margin: 20px;
+  }
+  
+  .modal-header {
+    padding: 16px 20px;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .modal-content {
+    padding: 16px 20px;
+  }
+  
+  .nav-controls-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .search-panel {
+    right: 0;
+    left: 0;
+    min-width: auto;
+    max-width: none;
+    margin: 0 10px;
+  }
+}
+
+/* Focus States for Accessibility */
+.btn:focus,
+.sortable:focus {
+  outline: 2px solid var(--facebook-blue);
+  outline-offset: 2px;
+}
+
+.sortable:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.sortable:focus-visible {
+  outline: 2px solid var(--facebook-blue);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --facebook-border: #000;
+    --facebook-light-gray: #ccc;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Action Buttons Container */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Edit Button Styles */
+.btn-icon-edit {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-edit i {
+  color: var(--facebook-blue);
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-edit:hover:not(:disabled) i {
+  color: var(--facebook-blue-hover);
+  transform: scale(1.1);
+}
+
+.btn-icon-edit:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-icon-edit:disabled i {
+  color: #ccc;
+}
+
+/* Link Button Styles */
+.btn-icon-link {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-link i {
+  color: var(--family-green);
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-link:hover:not(:disabled) i {
+  color: var(--family-light-green);
+  transform: scale(1.1);
+}
+
+.btn-icon-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-icon-link:disabled i {
+  color: #ccc;
+}
+
+/* Modal Overlay and Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.member-form-modal,
+.relationship-form-modal {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(30, 58, 138, 0.2);
+  width: 95%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.modal-header h2 {
+  margin: 0;
+  background: linear-gradient(135deg, #1e3a8a 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #475569;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #10b981 20%);
+  color: #1e293b;
+  transform: scale(1.1);
+}
+
+.modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  background-color: #ffffff;
+}
+
+/* Update existing form styling for modals */
+.member-form-modal .form-buttons,
+.relationship-form-modal .form-buttons {
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 16px;
+}
+
+/* Member Profile Modal Styles - Improved Design */
+.member-profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  backdrop-filter: blur(5px);
+  padding: 20px;
+}
+
+.member-profile-modal {
+  background: var(--family-bg-card);
+  border-radius: 16px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px rgba(37, 99, 235, 0.25);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--family-bg-tertiary);
+}
+
+.close-profile-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--family-text-dark);
+  z-index: 99999;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.close-profile-btn:hover {
+  background: white;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header-section {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 24px 24px 20px 24px;
+  border-bottom: 2px solid var(--family-bg-tertiary);
+  background: var(--family-bg-card);
+  flex-shrink: 0;
+}
+
+.member-profile-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scroll-behavior: smooth;
+}
+
+.profile-photo-section {
+  flex-shrink: 0;
+}
+
+.profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--family-primary);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
+}
+
+.profile-photo-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--facebook-light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--facebook-gray);
+  font-size: 2.5rem;
+  border: 2px solid var(--facebook-border);
+}
+
+.profile-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--family-text-dark);
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.maiden-name-subtitle {
+  font-size: 1rem;
+  color: var(--family-text-medium);
+  margin: 0 0 12px 0;
+  font-style: italic;
+}
+
+.profile-status {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.generation-badge {
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+}
+
+.profile-details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.profile-section {
+  background: var(--family-bg-light);
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--family-bg-tertiary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.profile-section h3 {
+  margin: 0 0 14px 0;
+  color: var(--family-text-dark);
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--family-primary);
+  padding-bottom: 6px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--family-bg-tertiary);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item strong {
+  min-width: 120px;
+  color: var(--family-text-medium);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.detail-item span {
+  color: var(--family-text-dark);
+  font-size: 0.9rem;
+}
+
+.biography-text,
+.notes-text {
+  background: var(--family-bg-medium);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--family-primary);
+  line-height: 1.6;
+  color: var(--family-text-dark);
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+}
+
+.biography-text {
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.social-media-profile {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.social-media-profile .social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.social-media-profile .social-link.facebook {
+  background: #1877f2;
+  color: white;
+}
+
+.social-media-profile .social-link.facebook:hover {
+  background: #166fe5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 119, 242, 0.3);
+}
+
+.social-media-profile .social-link.twitter {
+  background: #1da1f2;
+  color: white;
+}
+
+.social-media-profile .social-link.twitter:hover {
+  background: #1a91da;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(29, 161, 242, 0.3);
+}
+
+.social-media-profile .social-link.instagram {
+  background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+  color: white;
+}
+
+.social-media-profile .social-link.instagram:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(225, 48, 108, 0.3);
+}
+
+.member-profile-actions .btn-primary {
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.member-profile-actions .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Make member names clickable */
+.member-name {
+  transition: all 0.2s ease;
+}
+
+.member-name:hover {
+  color: var(--family-primary);
+  font-weight: 600;
+}
+
+/* Make parent and child cards clickable */
+.parent-card,
+.child-card {
+  transition: all 0.2s ease;
+}
+
+.parent-card:hover,
+.child-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+}
+
+.parent-card h5,
+.child-card h6 {
+  transition: color 0.2s ease;
+}
+
+.parent-card:hover h5,
+.child-card:hover h6 {
+  color: var(--family-primary);
+}
+
+/* Ensure parent and child cards are clickable */
+.parent-card[style*="cursor: pointer"],
+.child-card[style*="cursor: pointer"] {
+  cursor: pointer !important;
+}
+
+/* Responsive design for profile modal */
+@media (max-width: 768px) {
+  .member-profile-modal {
+    width: 95%;
+    max-height: 98vh;
+    margin: 10px;
+  }
+  
+  .member-profile-content {
+    padding: 24px 20px;
+    gap: 24px;
+  }
+  
+  .profile-header-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .profile-photo,
+  .profile-photo-placeholder {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-photo-placeholder {
+    font-size: 3rem;
+  }
+  
+  .profile-name {
+    font-size: 2rem;
+  }
+  
+  .member-profile-actions {
+    padding: 20px;
+    flex-direction: column;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .detail-item strong {
+    min-width: auto;
+  }
+  
+  .profile-status {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .member-profile-overlay {
+    padding: 10px;
+  }
+  
+  .member-profile-modal {
+    max-height: 95vh;
+  }
+  
+  .profile-header-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 20px 16px 16px 16px;
+  }
+  
+  .member-profile-content {
+    padding: 16px;
+  }
+  
+  .profile-name {
+    font-size: 1.5rem;
+  }
+  
+  .profile-section {
+    padding: 14px;
+  }
+  
+  .social-media-profile {
+    justify-content: center;
+  }
+}
+
+/* Welcome Modal Styles */
+.welcome-modal {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 25px 50px rgba(37, 99, 235, 0.2);
+  text-align: center;
+  position: relative;
+  z-index: 1001;
+}
+
+.welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.welcome-icon {
+  font-size: 60px;
+  color: var(--family-primary);
+  margin-bottom: 10px;
+}
+
+.welcome-modal h2 {
+  color: var(--family-text-dark);
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, var(--family-primary), var(--family-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.welcome-modal p {
+  color: var(--family-text-medium);
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.welcome-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.welcome-btn {
+  padding: 15px 30px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--family-primary), var(--family-secondary));
+  color: white;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+}
+
+.welcome-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(37, 99, 235, 0.3);
+}
+
+/* Admin-only styles */
+.admin-only {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.non-admin-hidden {
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.admin-badge {
+  background: linear-gradient(135deg, var(--family-green), var(--family-light-green));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.user-linked-indicator {
+  background: linear-gradient(135deg, var(--family-primary), var(--family-secondary));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.link-to-me-btn {
+  background: linear-gradient(135deg, var(--family-secondary), var(--family-tertiary));
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+}
+
+.link-to-me-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Non-admin message */
+.non-admin-message {
+  background: linear-gradient(135deg, var(--family-bg-medium), var(--family-bg-tertiary));
+  border: 2px solid var(--family-primary);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+  color: var(--family-text-medium);
+}
+
+.non-admin-message h3 {
+  color: var(--family-primary);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.non-admin-message p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Guest Mode Banner */
+.guest-mode-banner {
+  background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
+  color: white;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px var(--shadow-warm);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.guest-mode-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.guest-mode-content i {
+  font-size: 24px;
+  color: var(--family-light-blue);
+}
+
+.guest-mode-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.guest-mode-content p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.guest-mode-content a {
+  color: var(--family-light-blue);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.guest-mode-content a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+/* Social media links in tables */
+.social-media-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.social-media-links .social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.social-media-links .social-link.facebook {
+  background: #1877f2;
+  color: white;
+}
+
+.social-media-links .social-link.facebook:hover {
+  background: #166fe5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.social-media-links .social-link.twitter {
+  background: #1da1f2;
+  color: white;
+}
+
+.social-media-links .social-link.twitter:hover {
+  background: #1a91da;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(29, 161, 242, 0.3);
+}
+
+.social-media-links .social-link.instagram {
+  background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+  color: white;
+}
+
+.social-media-links .social-link.instagram:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
+}

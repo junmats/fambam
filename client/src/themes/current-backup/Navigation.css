@@ -1,0 +1,222 @@
+/* Facebook-inspired Navigation Styles */
+:root {
+  --nav-bg: #ffffff;
+  --nav-border: #dadde1;
+  --nav-text: #1c1e21;
+  --nav-text-secondary: #65676b;
+  --nav-blue: #1877f2;
+  --nav-blue-hover: #166fe5;
+  --nav-gray-100: #f0f2f5;
+  --nav-gray-200: #e4e6ea;
+  --nav-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --nav-warning: #f39c12;
+}
+
+.navigation {
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  padding: 8px 0;
+  box-shadow: var(--nav-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--nav-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo:hover {
+  color: var(--nav-blue-hover);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 4px;
+  align-items: center;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  color: var(--nav-text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-link:hover {
+  background-color: var(--nav-gray-100);
+}
+
+.nav-link.active {
+  background-color: var(--nav-blue);
+  color: white;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--nav-text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.nav-button:hover {
+  background-color: var(--nav-gray-100);
+}
+
+/* Dashboard Action Buttons */
+.dashboard-actions {
+  margin-left: 8px;
+}
+
+.nav-action-btn {
+  background: var(--nav-gray-100);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 18px;
+  color: var(--nav-text);
+  margin: 0;
+}
+
+.nav-action-btn:hover {
+  background: var(--nav-gray-200);
+  transform: scale(1.05);
+}
+
+.nav-action-btn:active {
+  transform: scale(0.95);
+}
+
+.nav-action-btn.active {
+  background: var(--nav-blue);
+  color: white;
+}
+
+.nav-action-btn.warning {
+  background: var(--nav-warning);
+  color: white;
+}
+
+.nav-action-btn.warning:hover {
+  background: #e67e22;
+}
+
+.nav-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nav-action-btn:disabled:hover {
+  transform: none;
+}
+
+/* Spinning animation for fixing generations */
+.nav-action-btn .bi-arrow-repeat {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip for action buttons */
+.nav-action-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--nav-text);
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1001;
+  pointer-events: none;
+}
+
+/* Hide text on smaller screens for main nav items */
+@media (max-width: 768px) {
+  .nav-menu {
+    gap: 2px;
+  }
+  
+  .nav-link span,
+  .nav-button span {
+    display: none;
+  }
+  
+  .nav-action-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  .nav-logo {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 12px;
+  }
+  
+  .nav-action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}

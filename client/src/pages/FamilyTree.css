@@ -1,0 +1,273 @@
+/* Facebook-inspired Family Tree Styles */
+:root {
+  --fb-primary: #1877f2;
+  --fb-primary-hover: #166fe5;
+  --fb-secondary: #42b883;
+  --fb-gray-100: #f0f2f5;
+  --fb-gray-200: #e4e6ea;
+  --fb-gray-300: #ced0d4;
+  --fb-gray-800: #1c1e21;
+  --fb-gray-900: #18191a;
+  --fb-text: #1c1e21;
+  --fb-text-secondary: #65676b;
+  --fb-success: #42b883;
+  --fb-warning: #f39c12;
+  --fb-danger: #e74c3c;
+  --fb-border-radius: 8px;
+  --fb-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  --fb-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.12), 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Family Tree - Fullscreen Layout for D3 Visualization Only */
+.family-tree-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--fb-gray-100) 0%, #e8f4fd 100%);
+  overflow: hidden;
+  z-index: 1000;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.family-tree-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--fb-gray-100) 0%, #e8f4fd 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  text-align: center;
+  color: var(--fb-text);
+  background: white;
+  padding: 3rem;
+  border-radius: var(--fb-border-radius);
+  box-shadow: var(--fb-shadow);
+}
+
+.loading-content h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--fb-primary);
+}
+
+.loading-content p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--fb-text-secondary);
+}
+
+.empty-tree-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--fb-gray-100) 0%, #e8f4fd 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.empty-content {
+  text-align: center;
+  background: white;
+  padding: 3rem;
+  border-radius: var(--fb-border-radius);
+  box-shadow: var(--fb-shadow);
+  max-width: 500px;
+  margin: 20px;
+}
+
+.empty-content h2 {
+  margin: 0 0 1rem 0;
+  color: var(--fb-text);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.empty-content p {
+  margin: 0 0 2rem 0;
+  color: var(--fb-text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.tree-visualization-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Icon Button Styles */
+.btn-icon {
+  background: var(--fb-gray-100);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 18px;
+  color: var(--fb-text);
+}
+
+.btn-icon:hover {
+  background: var(--fb-gray-200);
+  transform: scale(1.05);
+}
+
+.btn-icon:active {
+  transform: scale(0.95);
+}
+
+.btn-icon.active {
+  background: var(--fb-primary);
+  color: white;
+}
+
+/* Tooltip for icon buttons */
+.btn-icon[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--fb-gray-800);
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1001;
+  pointer-events: none;
+}
+
+/* Modern Facebook-style Button */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--fb-border-radius);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  line-height: 1.2;
+  min-height: 36px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--fb-shadow-hover);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: var(--fb-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--fb-primary-hover);
+}
+
+.btn i {
+  font-size: 16px;
+}
+
+/* Header Styles for Family Tree */
+.family-tree-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--fb-gray-200);
+  padding: 16px 24px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.family-tree-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fb-text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.family-tree-header h1 i {
+  color: var(--fb-primary);
+  font-size: 28px;
+}
+
+.tree-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .family-tree-header {
+    padding: 12px 16px;
+  }
+  
+  .family-tree-header h1 {
+    font-size: 20px;
+  }
+  
+  .family-tree-header h1 i {
+    font-size: 24px;
+  }
+  
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  .empty-content {
+    padding: 2rem;
+    margin: 16px;
+  }
+  
+  .loading-content {
+    padding: 2rem;
+    margin: 16px;
+  }
+}
