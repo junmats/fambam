@@ -71,7 +71,8 @@ dist
 
 # Gatsby files
 .cache/
-public
+# Don't ignore React public folder - it contains index.html and other static assets
+# public (commented out for React apps)
 
 # Storybook build outputs
 .out
