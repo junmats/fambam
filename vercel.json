@@ -1,8 +1,0 @@
-{
-  "name": "fambam-frontend",
-  "version": 2,
-  "framework": "create-react-app",
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
-  "installCommand": "npm install"
-}
