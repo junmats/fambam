@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../config/api';
 import { useUser } from '../contexts/UserContext';
 import './Auth.css';
 
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
       console.log('Attempting login to:', '/api/auth/login');
       console.log('Form data:', formData);
       
-      const response = await axios.post('/api/auth/login', formData, {
+      const response = await apiClient.post('/api/auth/login', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
