@@ -263,4 +263,74 @@ router.post('/reset-password', async (req, res) => {
   }
 });
 
+// Change password (requires authentication)
+router.put('/change-password', async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    
+    // Get token from authorization header
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+    
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required' });
+    }
+    
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'New password must be at least 6 characters long' });
+    }
+    
+    const db = await mysql.createConnection(dbConfig);
+    
+    // Get current user data
+    const [users] = await db.execute(
+      'SELECT id, email, password FROM users WHERE id = ?',
+      [decoded.userId]
+    );
+    
+    if (users.length === 0) {
+      await db.end();
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const user = users[0];
+    
+    // Verify current password
+    const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+    
+    if (!isValidPassword) {
+      await db.end();
+      return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+    
+    // Hash new password
+    const saltRounds = 10;
+    const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
+    
+    // Update password in database
+    await db.execute(
+      'UPDATE users SET password = ? WHERE id = ?',
+      [hashedNewPassword, decoded.userId]
+    );
+    
+    await db.end();
+    
+    res.status(200).json({ message: 'Password changed successfully' });
+    
+  } catch (error) {
+    console.error('Change password error:', error);
+    if (error.name === 'JsonWebTokenError') {
+      res.status(401).json({ error: 'Invalid token' });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+});
+
 module.exports = router;

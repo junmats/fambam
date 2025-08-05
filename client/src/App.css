@@ -1,4 +1,4 @@
-/* Family Tree App - Clean Blue Theme (Facebook-inspired) */
+/* Family Tree App - Mobile-First Responsive Design */
 
 /* CSS Reset and Base Styles */
 * {
@@ -41,9 +41,17 @@
   --shadow-warm: rgba(37, 99, 235, 0.15);
   --shadow-soft: rgba(16, 185, 129, 0.08);
   --shadow-card: rgba(59, 130, 246, 0.12);
+  
+  /* Mobile-first spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
 }
 
-/* Global styling */
+/* Global styling - Mobile First */
 body {
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -76,17 +84,36 @@ body {
 }
 
 main {
-  min-height: calc(100vh - 80px);
-  padding-top: 40px;
+  min-height: calc(100vh - 64px);
   position: relative;
   z-index: 1;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-/* Beautiful typography */
+/* Mobile-first responsive typography */
 h1, h2, h3, h4, h5, h6 {
   color: var(--family-primary);
   font-weight: 600;
   margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.125rem; }
+  h6 { font-size: 1rem; }
 }
 
 h1 {

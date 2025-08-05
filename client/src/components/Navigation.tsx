@@ -277,6 +277,16 @@ const Navigation: React.FC = () => {
                       </div>
                     </div>
                     <div className="dropdown-divider"></div>
+                    {!isGuest && (
+                      <Link 
+                        to="/change-password"
+                        className="dropdown-item"
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        <i className="bi bi-key"></i>
+                        <span>Change Password</span>
+                      </Link>
+                    )}
                     <button 
                       className="dropdown-item logout-item"
                       onClick={handleLogout}

@@ -22,7 +22,7 @@
   background: linear-gradient(135deg, var(--nav-bg) 0%, rgba(248, 250, 252, 0.98) 100%);
   backdrop-filter: blur(10px);
   border-bottom: 2px solid var(--nav-border);
-  padding: 12px 0;
+  padding: 8px 0;
   box-shadow: var(--nav-shadow);
   position: sticky;
   top: 0;
@@ -33,14 +33,14 @@
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .nav-logo {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 800;
   background: linear-gradient(135deg, var(--nav-primary) 0%, var(--nav-secondary) 100%);
   -webkit-background-clip: text;
@@ -48,20 +48,21 @@
   background-clip: text;
   text-decoration: none;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
 }
 
-.nav-logo::before {
-  content: '🏠';
-  font-size: 24px;
-  animation: gentle-bounce 2s infinite;
-}
-
-.nav-logo:hover {
-  transform: scale(1.05);
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .navigation {
+    padding: 12px 0;
+  }
+  
+  .nav-container {
+    padding: 0 20px;
+  }
+  
+  .nav-logo {
+    font-size: 28px;
+  }
 }
 
 .nav-menu {
