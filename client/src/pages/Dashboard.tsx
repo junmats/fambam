@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../config/api';
 import { useUser } from '../contexts/UserContext';
 import PhotoUpload from '../components/PhotoUpload';
 import RelationshipManager from '../components/RelationshipManager';
@@ -222,11 +222,11 @@ const Dashboard: React.FC = () => {
       
       if (isGuest) {
         // Guest mode - no authentication required
-        response = await axios.get('/api/family/guest/tree/generations');
+        response = await apiClient.get('/api/family/guest/tree/generations');
       } else {
         // Authenticated mode
         const token = localStorage.getItem('token');
-        response = await axios.get('/api/family/tree/generations', {
+        response = await apiClient.get('/api/family/tree/generations', {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -243,11 +243,11 @@ const Dashboard: React.FC = () => {
       
       if (isGuest) {
         // Guest mode - no authentication required
-        response = await axios.get('/api/family/guest/stats');
+        response = await apiClient.get('/api/family/guest/stats');
       } else {
         // Authenticated mode
         const token = localStorage.getItem('token');
-        response = await axios.get('/api/family/stats', {
+        response = await apiClient.get('/api/family/stats', {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -264,12 +264,12 @@ const Dashboard: React.FC = () => {
       
       if (isGuest) {
         // Guest mode - no authentication required
-        response = await axios.get('/api/family/guest/families');
+        response = await apiClient.get('/api/family/guest/families');
       } else {
         // Authenticated mode
         const token = localStorage.getItem('token');
         console.log('Fetching families with token:', token ? 'Token exists' : 'No token');
-        response = await axios.get('/api/family/families', {
+        response = await apiClient.get('/api/family/families', {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -292,12 +292,12 @@ const Dashboard: React.FC = () => {
       
       if (isGuest) {
         // Guest mode - no authentication required
-        response = await axios.get('/api/family/guest/members');
+        response = await apiClient.get('/api/family/guest/members');
       } else {
         // Authenticated mode
         const token = localStorage.getItem('token');
         console.log('Fetching family members with token:', token ? 'Token exists' : 'No token');
-        response = await axios.get('/api/family/members', {
+        response = await apiClient.get('/api/family/members', {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -322,11 +322,11 @@ const Dashboard: React.FC = () => {
       
       if (isGuest) {
         // Guest mode - no authentication required
-        response = await axios.get('/api/family/guest/all-relationships');
+        response = await apiClient.get('/api/family/guest/all-relationships');
       } else {
         // Authenticated mode
         const token = localStorage.getItem('token');
-        response = await axios.get('/api/family/all-relationships', {
+        response = await apiClient.get('/api/family/all-relationships', {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -411,7 +411,7 @@ const Dashboard: React.FC = () => {
           
           try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('/api/photos/upload', formData, {
+            const response = await apiClient.post('/api/photos/upload', formData, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
@@ -469,7 +469,7 @@ const Dashboard: React.FC = () => {
   const handleLinkToMe = async (memberId: number) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`/api/family/members/${memberId}/link`, {}, {
+      const response = await apiClient.put(`/api/family/members/${memberId}/link`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -535,12 +535,12 @@ const Dashboard: React.FC = () => {
       
       if (editingMember) {
         // Update existing member
-        await axios.put(`/api/family/members/${editingMember.id}`, finalFormData, {
+        await apiClient.put(`/api/family/members/${editingMember.id}`, finalFormData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
         // Add new member
-        await axios.post('/api/family/members', finalFormData, {
+        await apiClient.post('/api/family/members', finalFormData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -683,7 +683,7 @@ const Dashboard: React.FC = () => {
           break;
       }
 
-      await axios.post(endpoint, payload, {
+      await apiClient.post(endpoint, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -727,7 +727,7 @@ const Dashboard: React.FC = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/api/family/members/${deleteConfirmation.memberId}`, {
+      await apiClient.delete(`/api/family/members/${deleteConfirmation.memberId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -770,7 +770,7 @@ const Dashboard: React.FC = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
+      const response = await apiClient.post(
         '/api/family/fix-generations',
         {},
         {

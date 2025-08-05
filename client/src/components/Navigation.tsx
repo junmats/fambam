@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import axios from 'axios';
+import apiClient from '../config/api';
 import './Navigation.css';
 
 interface FamilyMember {
@@ -46,7 +46,7 @@ const Navigation: React.FC = () => {
   const fetchLinkedMember = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5001/api/family/members', {
+      const response = await apiClient.get('/api/family/members', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const members = response.data;

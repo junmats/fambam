@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../config/api';
 import { useUser } from '../contexts/UserContext';
 import './FamilyTree.css';
 import D3FamilyTree from '../components/D3FamilyTree';
@@ -102,7 +102,7 @@ const FamilyTree: React.FC = () => {
       if (isGuest) {
         // Guest mode - use guest API endpoint
         console.log('📡 Fetching family tree hierarchy data for guest...');
-        response = await axios.get('/api/family/guest/tree/hierarchy');
+        response = await apiClient.get('/api/family/guest/tree/hierarchy');
       } else {
         // Authenticated mode
         const token = localStorage.getItem('token');
@@ -114,7 +114,7 @@ const FamilyTree: React.FC = () => {
         }
         
         console.log('📡 Fetching family tree hierarchy data...');
-        response = await axios.get('/api/family/tree/hierarchy', {
+        response = await apiClient.get('/api/family/tree/hierarchy', {
           headers: { Authorization: `Bearer ${token}` }
         });
       }

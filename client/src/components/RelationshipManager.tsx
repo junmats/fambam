@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../config/api';
 import './RelationshipManager.css';
 
 interface FamilyMember {
@@ -71,15 +71,15 @@ const RelationshipManager: React.FC<RelationshipManagerProps> = ({ onClose, onRe
       const headers = { Authorization: `Bearer ${token}` };
 
       // Load marriages
-      const marriagesResponse = await axios.get('/api/family/marriages', { headers });
+      const marriagesResponse = await apiClient.get('/api/family/marriages', { headers });
       setMarriages(marriagesResponse.data);
 
       // Load parent-child relationships from dedicated endpoint
-      const parentChildResponse = await axios.get('/api/family/relationships/parent-child', { headers });
+      const parentChildResponse = await apiClient.get('/api/family/relationships/parent-child', { headers });
       setParentChildRels(parentChildResponse.data);
 
       // Load family members for dropdowns
-      const membersResponse = await axios.get('/api/family/members', { headers });
+      const membersResponse = await apiClient.get('/api/family/members', { headers });
       setFamilyMembers(membersResponse.data);
     } catch (error: any) {
       console.error('❌ Error loading relationship data:', error);
@@ -111,7 +111,7 @@ const RelationshipManager: React.FC<RelationshipManagerProps> = ({ onClose, onRe
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/api/family/marriages/${marriageId}`, {
+      await apiClient.delete(`/api/family/marriages/${marriageId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -130,7 +130,7 @@ const RelationshipManager: React.FC<RelationshipManagerProps> = ({ onClose, onRe
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/api/family/relationships/parent-child/${relationshipId}`, {
+      await apiClient.delete(`/api/family/relationships/parent-child/${relationshipId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -145,7 +145,7 @@ const RelationshipManager: React.FC<RelationshipManagerProps> = ({ onClose, onRe
   const handleEditMarriage = async (marriage: Marriage, updatedData: Partial<Marriage>) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`/api/family/marriages/${marriage.id}`, updatedData, {
+      await apiClient.put(`/api/family/marriages/${marriage.id}`, updatedData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -161,7 +161,7 @@ const RelationshipManager: React.FC<RelationshipManagerProps> = ({ onClose, onRe
   const handleEditParentChild = async (relationship: ParentChildRelationship, updatedData: Partial<ParentChildRelationship>) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`/api/family/relationships/parent-child/${relationship.id}`, updatedData, {
+      await apiClient.put(`/api/family/relationships/parent-child/${relationship.id}`, updatedData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
