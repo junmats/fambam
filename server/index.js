@@ -57,19 +57,8 @@ async function initDatabase() {
       port: dbConfig.port
     });
     
-    // First connect without database to create it
-    const tempConfig = { ...dbConfig };
-    delete tempConfig.database;
-    console.log('Creating temporary connection...');
-    const tempDb = await mysql.createConnection(tempConfig);
-    
-    // Create database if it doesn't exist
-    console.log('Creating database if not exists...');
-    await tempDb.execute(`CREATE DATABASE IF NOT EXISTS ${dbConfig.database}`);
-    await tempDb.end();
-    
-    // Now connect to the specific database
-    console.log('Connecting to specific database...');
+    // Connect directly to the Railway database (skip database creation)
+    console.log('Connecting to Railway database...');
     db = await mysql.createConnection(dbConfig);
     console.log('Connected to MySQL database successfully');
     
