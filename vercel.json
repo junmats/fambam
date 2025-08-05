@@ -1,0 +1,16 @@
+{
+  "buildCommand": "cd client && npm run build",
+  "outputDirectory": "client/build",
+  "devCommand": "cd client && npm start",
+  "installCommand": "cd client && npm install",
+  "framework": "create-react-app",
+  "env": {
+    "REACT_APP_API_URL": "https://alle.up.railway.app"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
