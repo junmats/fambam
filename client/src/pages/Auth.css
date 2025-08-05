@@ -94,7 +94,7 @@
 
 .error-message {
   background-color: #e74c3c;
-  color: white;
+  color: white !important;
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
