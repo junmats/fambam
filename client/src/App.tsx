@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { UserProvider } from './contexts/UserContext';
 import Navigation from './components/Navigation';
+import ApiDebug from './components/ApiDebug';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -16,6 +17,7 @@ function App() {
     <UserProvider>
       <Router>
         <div className="App">
+          <ApiDebug />
           <Navigation />
           <main>
             <Routes>
