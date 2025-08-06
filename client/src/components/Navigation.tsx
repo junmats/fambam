@@ -26,6 +26,9 @@ const Navigation: React.FC = () => {
   const [showRelationshipForm, setShowRelationshipForm] = useState(false);
   const [fixingGenerations, setFixingGenerations] = useState(false);
   
+  // Mobile menu state
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  
   // Profile dropdown state
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [linkedMember, setLinkedMember] = useState<FamilyMember | null>(null);
@@ -113,6 +116,10 @@ const Navigation: React.FC = () => {
     setShowProfileDropdown(!showProfileDropdown);
   };
 
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+  };
+
   const getDisplayName = () => {
     if (isGuest) {
       return 'Guest User';
@@ -172,9 +179,14 @@ const Navigation: React.FC = () => {
           FamALLE
         </Link>
         
-        <ul className="nav-menu">
+        {/* Mobile hamburger button */}
+        <button className="nav-toggle" onClick={toggleMobileMenu}>
+          <i className={`bi ${showMobileMenu ? 'bi-x' : 'bi-list'}`}></i>
+        </button>
+        
+        <ul className={`nav-menu ${showMobileMenu ? 'mobile-open' : ''}`}>
           <li className="nav-item">
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-link" onClick={() => setShowMobileMenu(false)}>
               <i className="bi bi-house"></i>
               <span>Home</span>
             </Link>
@@ -183,7 +195,7 @@ const Navigation: React.FC = () => {
           {isAuthenticated ? (
             <>
               <li className="nav-item">
-                <Link to="/dashboard" className="nav-link">
+                <Link to="/dashboard" className="nav-link" onClick={() => setShowMobileMenu(false)}>
                   <i className="bi bi-speedometer2"></i>
                   <span>Dashboard</span>
                 </Link>

@@ -59,6 +59,8 @@ body {
   background: linear-gradient(135deg, var(--family-bg-light) 0%, var(--family-bg-tertiary) 100%);
   padding: 0;
   position: relative;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Add warm background pattern */
@@ -77,10 +79,10 @@ body {
   z-index: 0;
 }
 
-/* Family Tree Hero Section */
+/* Family Tree Hero Section - Mobile First */
 .dashboard-hero {
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(218, 165, 32, 0.05) 100%);
-  padding: 40px 20px;
+  padding: 20px 12px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -88,7 +90,7 @@ body {
 }
 
 .dashboard-hero h1 {
-  font-size: 3.2rem;
+  font-size: 2rem;
   font-weight: 800;
   background: linear-gradient(135deg, var(--family-primary) 0%, var(--family-secondary) 100%);
   -webkit-background-clip: text;
@@ -98,13 +100,32 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 8px;
+}
+
+/* Tablet and desktop */
+@media (min-width: 768px) {
+  .dashboard-hero {
+    padding: 40px 20px;
+  }
+  
+  .dashboard-hero h1 {
+    font-size: 3.2rem;
+    gap: 16px;
+  }
 }
 
 .dashboard-hero h1::before {
   content: '🌳';
-  font-size: 3rem;
+  font-size: 2rem;
   animation: gentle-bounce 3s infinite;
+}
+
+/* Tablet and desktop emoji size */
+@media (min-width: 768px) {
+  .dashboard-hero h1::before {
+    font-size: 3rem;
+  }
 }
 
 .dashboard-hero p {
@@ -333,32 +354,67 @@ body {
   font-size: 16px;
 }
 
-/* View Toggle */
+/* View Toggle - Mobile First */
 .view-toggle {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   margin-bottom: 20px;
-  padding: 4px;
+  padding: 2px;
   background: var(--facebook-white);
   border-radius: 8px;
   box-shadow: var(--facebook-shadow);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .view-toggle .btn {
   flex: 1;
-  padding: 12px 16px;
+  min-width: max-content;
+  padding: 8px 12px;
   border: none;
   border-radius: 6px;
   background: transparent;
   color: var(--facebook-gray);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  white-space: nowrap;
+}
+
+/* Tablet and desktop */
+@media (min-width: 768px) {
+  .view-toggle {
+    gap: 8px;
+    padding: 4px;
+    overflow-x: visible;
+  }
+  
+  .view-toggle .btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Dashboard Content - Mobile First */
+.dashboard-content {
+  padding: 12px;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tablet and desktop */
+@media (min-width: 768px) {
+  .dashboard-content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 .view-toggle .btn:hover {
@@ -1610,7 +1666,7 @@ body {
   color: #ccc;
 }
 
-/* Modal Overlay and Styling */
+/* Modal Overlay and Styling - Mobile First */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1620,9 +1676,11 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1000;
   backdrop-filter: blur(3px);
+  padding: 1rem 0.5rem;
+  overflow-y: auto;
 }
 
 .member-form-modal,
@@ -1630,14 +1688,30 @@ body {
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border-radius: 16px;
   box-shadow: 0 12px 40px rgba(30, 58, 138, 0.2);
-  width: 95%;
-  max-width: 800px;
-  max-height: 85vh;
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(100vh - 2rem);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   animation: slideIn 0.3s ease-out;
   border: 1px solid rgba(16, 185, 129, 0.2);
+  margin: auto;
+}
+
+/* Tablet and desktop modal */
+@media (min-width: 768px) {
+  .modal-overlay {
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .member-form-modal,
+  .relationship-form-modal {
+    width: 95%;
+    max-width: 800px;
+    max-height: 85vh;
+  }
 }
 
 @keyframes slideIn {

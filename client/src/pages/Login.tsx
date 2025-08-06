@@ -99,12 +99,6 @@ const Login: React.FC = () => {
           </button>
         </form>
         
-        <div className="auth-links">
-          <Link to="/forgot-password" className="forgot-password-link">
-            Forgot your password?
-          </Link>
-        </div>
-        
         <p className="auth-link">
           Don't have an account? <Link to="/register">Sign up here</Link>
         </p>

@@ -343,7 +343,9 @@ export const uploadPhoto = async (file: File, cropData: PixelCrop): Promise<stri
   formData.append('cropData', JSON.stringify(cropData));
 
   const token = localStorage.getItem('token');
-  const response = await fetch('http://localhost:5001/api/photos/upload', {
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  
+  const response = await fetch(`${apiUrl}/api/photos/upload`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -354,7 +356,9 @@ export const uploadPhoto = async (file: File, cropData: PixelCrop): Promise<stri
   const data = await response.json();
 
   if (data.success) {
-    return `http://localhost:5001${data.photoUrl}`;
+    // For Cloudinary, return the direct URL
+    // For local development, return the full URL
+    return data.photoUrl;
   } else {
     throw new Error(data.error || 'Failed to upload photo');
   }

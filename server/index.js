@@ -406,7 +406,7 @@ app.get('/api/test', (req, res) => {
 // Import route handlers
 const authRoutes = require('./routes/auth');
 const familyRoutes = require('./routes/family');
-const photosRoutes = require('./routes/photos');
+const photosRoutes = require('./routes/photos-railway');
 const themeRoutes = require('./routes/theme');
 
 app.use('/api/auth', authRoutes);

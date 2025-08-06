@@ -524,8 +524,8 @@ const Dashboard: React.FC = () => {
       // Upload photo if there's new photo data
       if (photoData.file && photoData.cropData) {
         try {
-          const filename = await uploadPhoto(photoData.file, photoData.cropData);
-          finalFormData.photoUrl = `http://localhost:5001/api/photos/${filename}`;
+          const photoUrl = await uploadPhoto(photoData.file, photoData.cropData);
+          finalFormData.photoUrl = photoUrl;
         } catch (photoError: any) {
           setMemberFormErrors({ photoUrl: photoError.message || 'Failed to upload photo' });
           setMemberFormLoading(false);
@@ -1145,7 +1145,7 @@ const Dashboard: React.FC = () => {
               <div className="welcome-icon">
                 <i className="bi bi-tree"></i>
               </div>
-              <h2>Welcome ka-FamALLE!!</h2>
+              <h2>Welcome ALLE Fam!!</h2>
               <p>Ready to explore your roots?</p>
               <div className="welcome-buttons">
                 <button 
@@ -1777,8 +1777,144 @@ const Dashboard: React.FC = () => {
               <p>No family members added yet. Start building your family tree!</p>
             </div>
           ) : (
-            <div className="table-container">
-              <table className="members-table">
+            <>
+              {/* Mobile Cards - Hidden on Desktop */}
+              <div className="mobile-cards-container">
+                {sortedAndFilteredMembers.map((member) => (
+                  <div key={`mobile-${member.id}`} className="member-card">
+                    <div className="card-header">
+                      <div className="card-title-section">
+                        <div className="member-photo">
+                          {member.photo_url ? (
+                            <img 
+                              src={member.photo_url} 
+                              alt={`${member.first_name} ${member.last_name}`}
+                              className="member-photo-img"
+                            />
+                          ) : (
+                            <div className="member-photo-placeholder">
+                              <i className="bi bi-person-circle"></i>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <h4 className="card-title" onClick={() => handleMemberClick(member)} style={{ cursor: 'pointer' }}>
+                            {member.first_name} {member.middle_name && `${member.middle_name} `}{member.last_name}
+                          </h4>
+                          {member.maiden_name && (
+                            <p className="card-subtitle">née {member.maiden_name}</p>
+                          )}
+                        </div>
+                      </div>
+                      <span className={`status-badge ${member.is_living ? 'living' : 'deceased'}`}>
+                        {member.is_living ? 'Living' : 'Deceased'}
+                      </span>
+                    </div>
+                    
+                    <div className="card-body">
+                      <div className="card-field">
+                        <span className="card-field-label">Generation:</span>
+                        <span className="card-field-value">{getGenerationLabel(member.generation_level)}</span>
+                      </div>
+                      <div className="card-field">
+                        <span className="card-field-label">Birth Date:</span>
+                        <span className="card-field-value">{member.birth_date ? formatDate(member.birth_date) : '-'}</span>
+                      </div>
+                      <div className="card-field">
+                        <span className="card-field-label">Birth Place:</span>
+                        <span className="card-field-value">{member.birth_place || '-'}</span>
+                      </div>
+                      {(member.facebook_url || member.twitter_url || member.instagram_url) && (
+                        <div className="card-field">
+                          <span className="card-field-label">Social:</span>
+                          <div className="card-field-value">
+                            <div className="social-media-links">
+                              {member.facebook_url && (
+                                <a href={member.facebook_url} target="_blank" rel="noopener noreferrer" className="social-link facebook">
+                                  <i className="bi bi-facebook"></i>
+                                </a>
+                              )}
+                              {member.twitter_url && (
+                                <a href={member.twitter_url} target="_blank" rel="noopener noreferrer" className="social-link twitter">
+                                  <i className="bi bi-twitter-x"></i>
+                                </a>
+                              )}
+                              {member.instagram_url && (
+                                <a href={member.instagram_url} target="_blank" rel="noopener noreferrer" className="social-link instagram">
+                                  <i className="bi bi-instagram"></i>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {!isGuest && (
+                      <div className="card-actions">
+                        {(() => {
+                          const userIsLinked = userLinkedMember !== null;
+                          const isUserLinkedMember = member.user_id === user?.id;
+                          const memberHasUser = member.user_id !== null;
+
+                          if (isAdmin) {
+                            return (
+                              <>
+                                <button
+                                  className="card-btn card-btn-primary"
+                                  onClick={() => handleEditClick(member)}
+                                  title="Edit member"
+                                >
+                                  <i className="bi bi-pencil-square"></i>
+                                  Edit
+                                </button>
+                                <button
+                                  className="card-btn card-btn-danger"
+                                  onClick={() => handleDeleteClick(member)}
+                                  disabled={deletingMember === member.id}
+                                  title="Delete member"
+                                >
+                                  <i className={`bi ${deletingMember === member.id ? 'bi-arrow-repeat' : 'bi-trash'}`}></i>
+                                  Delete
+                                </button>
+                              </>
+                            );
+                          } else {
+                            if (isUserLinkedMember) {
+                              return (
+                                <button
+                                  className="card-btn card-btn-primary"
+                                  onClick={() => handleEditClick(member)}
+                                  title="Edit your profile"
+                                >
+                                  <i className="bi bi-pencil-square"></i>
+                                  Edit Profile
+                                </button>
+                              );
+                            } else if (!userIsLinked && !memberHasUser) {
+                              return (
+                                <button
+                                  className="card-btn card-btn-secondary"
+                                  onClick={() => handleLinkToMe(member.id)}
+                                  title="Link this member to your account"
+                                >
+                                  <i className="bi bi-person-plus"></i>
+                                  Link to Me
+                                </button>
+                              );
+                            }
+                          }
+                          return null;
+                        })()}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table - Hidden on Mobile */}
+              <div className="table-container">
+                <table className="members-table">
                 <thead>
                   <tr>
                     <th></th>
@@ -1965,6 +2101,7 @@ const Dashboard: React.FC = () => {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </div>
       )}
@@ -2017,6 +2154,138 @@ const Dashboard: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                    
+                    {/* Mobile Cards - Hidden on Desktop */}
+                    <div className="mobile-cards-container">
+                      {filteredAndSortedMembers.map(member => (
+                        <div key={`gen-mobile-${member.id}`} className="member-card">
+                          <div className="card-header">
+                            <div className="card-title-section">
+                              <div className="member-photo">
+                                {member.photo_url ? (
+                                  <img 
+                                    src={member.photo_url} 
+                                    alt={`${member.first_name} ${member.last_name}`}
+                                    className="member-photo-img"
+                                  />
+                                ) : (
+                                  <div className="member-photo-placeholder">
+                                    <i className="bi bi-person-circle"></i>
+                                  </div>
+                                )}
+                              </div>
+                              <div>
+                                <h4 className="card-title" onClick={() => handleMemberClick(member)} style={{ cursor: 'pointer' }}>
+                                  {member.first_name} {member.middle_name && `${member.middle_name} `}{member.last_name}
+                                </h4>
+                                {member.maiden_name && (
+                                  <p className="card-subtitle">née {member.maiden_name}</p>
+                                )}
+                              </div>
+                            </div>
+                            <span className={`status-badge ${member.is_living ? 'living' : 'deceased'}`}>
+                              {member.is_living ? 'Living' : 'Deceased'}
+                            </span>
+                          </div>
+                          
+                          <div className="card-body">
+                            <div className="card-field">
+                              <span className="card-field-label">Birth Date:</span>
+                              <span className="card-field-value">{member.birth_date ? formatDate(member.birth_date) : '-'}</span>
+                            </div>
+                            <div className="card-field">
+                              <span className="card-field-label">Birth Place:</span>
+                              <span className="card-field-value">{member.birth_place || '-'}</span>
+                            </div>
+                            {(member.facebook_url || member.twitter_url || member.instagram_url) && (
+                              <div className="card-field">
+                                <span className="card-field-label">Social:</span>
+                                <div className="card-field-value">
+                                  <div className="social-media-links">
+                                    {member.facebook_url && (
+                                      <a href={member.facebook_url} target="_blank" rel="noopener noreferrer" className="social-link facebook">
+                                        <i className="bi bi-facebook"></i>
+                                      </a>
+                                    )}
+                                    {member.twitter_url && (
+                                      <a href={member.twitter_url} target="_blank" rel="noopener noreferrer" className="social-link twitter">
+                                        <i className="bi bi-twitter-x"></i>
+                                      </a>
+                                    )}
+                                    {member.instagram_url && (
+                                      <a href={member.instagram_url} target="_blank" rel="noopener noreferrer" className="social-link instagram">
+                                        <i className="bi bi-instagram"></i>
+                                      </a>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {!isGuest && (
+                            <div className="card-actions">
+                              {(() => {
+                                const userIsLinked = userLinkedMember !== null;
+                                const isUserLinkedMember = member.user_id === user?.id;
+                                const memberHasUser = member.user_id !== null;
+
+                                if (isAdmin) {
+                                  return (
+                                    <>
+                                      <button
+                                        className="card-btn card-btn-primary"
+                                        onClick={() => handleEditClick(member)}
+                                        title="Edit member"
+                                      >
+                                        <i className="bi bi-pencil-square"></i>
+                                        Edit
+                                      </button>
+                                      <button
+                                        className="card-btn card-btn-danger"
+                                        onClick={() => handleDeleteClick(member)}
+                                        disabled={deletingMember === member.id}
+                                        title="Delete member"
+                                      >
+                                        <i className={`bi ${deletingMember === member.id ? 'bi-arrow-repeat' : 'bi-trash'}`}></i>
+                                        Delete
+                                      </button>
+                                    </>
+                                  );
+                                } else {
+                                  if (isUserLinkedMember) {
+                                    return (
+                                      <button
+                                        className="card-btn card-btn-primary"
+                                        onClick={() => handleEditClick(member)}
+                                        title="Edit your profile"
+                                      >
+                                        <i className="bi bi-pencil-square"></i>
+                                        Edit Profile
+                                      </button>
+                                    );
+                                  } else if (!userIsLinked && !memberHasUser) {
+                                    return (
+                                      <button
+                                        className="card-btn card-btn-secondary"
+                                        onClick={() => handleLinkToMe(member.id)}
+                                        title="Link this member to your account"
+                                      >
+                                        <i className="bi bi-person-plus"></i>
+                                        Link to Me
+                                      </button>
+                                    );
+                                  }
+                                }
+                                return null;
+                              })()}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Desktop Table - Hidden on Mobile */}
                     <div className="table-container">
                       <table className="generation-table">
                         <thead>
