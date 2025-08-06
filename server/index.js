@@ -18,7 +18,8 @@ app.use((req, res, next) => {
     'http://localhost:3003',
     'https://fambam.vercel.app',
     'https://fambam-ten.vercel.app',
-    'https://fambam-git-main-junmats-projects.vercel.app'
+    'https://fambam-git-main-junmats-projects.vercel.app',
+    'https://almagro-legaspi.vercel.app'
   ];
   
   const origin = req.headers.origin;
