@@ -95,6 +95,22 @@ const FamilyTree: React.FC = () => {
     fetchHierarchyData();
   }, [navigate, isGuest]);
 
+  // Add effect to refresh data when the page becomes visible (e.g., user navigates back)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        console.log('Page became visible, refreshing family tree data...');
+        fetchHierarchyData();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const fetchHierarchyData = async () => {
     try {
       let response;

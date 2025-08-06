@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Tree from 'react-d3-tree';
 import './D3FamilyTree.css';
+import { getFullPhotoUrl } from '../utils/photoUtils';
 
 interface TreeNode {
   name: string;
@@ -286,8 +287,8 @@ const D3FamilyTree: React.FC<D3FamilyTreeProps> = ({ hierarchyData }) => {
     const marriageDate = nodeDatum.attributes?.marriage_date;
     const isLiving = nodeDatum.attributes?.is_living;
     const spouseLiving = nodeDatum.attributes?.spouse_living;
-    const photoUrl = nodeDatum.attributes?.photo_url;
-    const spousePhotoUrl = nodeDatum.attributes?.spouse_photo_url;
+    const photoUrl = getFullPhotoUrl(nodeDatum.attributes?.photo_url);
+    const spousePhotoUrl = getFullPhotoUrl(nodeDatum.attributes?.spouse_photo_url);
 
     return (
       <g>

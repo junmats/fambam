@@ -4,6 +4,7 @@ import apiClient from '../config/api';
 import { useUser } from '../contexts/UserContext';
 import PhotoUpload from '../components/PhotoUpload';
 import RelationshipManager from '../components/RelationshipManager';
+import { getFullPhotoUrl } from '../utils/photoUtils';
 import './Dashboard.css';
 
 interface FamilyMember {
@@ -189,33 +190,6 @@ const Dashboard: React.FC = () => {
   const [showMemberProfile, setShowMemberProfile] = useState(false);
   const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null);
 
-  // Utility function to resolve photo URLs to full URLs
-  const getFullPhotoUrl = (photoUrl: string | undefined): string | undefined => {
-    if (!photoUrl) return undefined;
-    
-    // If it's already a full URL, return as is
-    if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
-      return photoUrl;
-    }
-    
-    // If it's a relative URL starting with /api/photos/, construct full URL
-    if (photoUrl.startsWith('/api/photos/')) {
-      const apiUrl = process.env.REACT_APP_API_URL || '';
-      const fullUrl = `${apiUrl}${photoUrl}`;
-      // Add cache-busting parameter to ensure fresh photos are loaded
-      const separator = fullUrl.includes('?') ? '&' : '?';
-      return `${fullUrl}${separator}t=${Date.now()}`;
-    }
-    
-    // If it's just a filename, construct the full photo URL
-    if (photoUrl.match(/^[a-f0-9-]+\.jpg$/)) {
-      const apiUrl = process.env.REACT_APP_API_URL || '';
-      return `${apiUrl}/api/photos/${photoUrl}?t=${Date.now()}`;
-    }
-    
-    return photoUrl;
-  };
-  
   // Redirect to login if not authenticated and not in guest mode
   useEffect(() => {
     console.log('Dashboard auth check - isGuest:', isGuest, 'user:', user);
