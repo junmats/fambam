@@ -16,6 +16,33 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
   onPhotoDataChange,
   onError 
 }) => {
+  // Utility function to resolve photo URLs to full URLs
+  const getFullPhotoUrl = (photoUrl: string | undefined): string | undefined => {
+    if (!photoUrl) return undefined;
+    
+    // If it's already a full URL, return as is
+    if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
+      return photoUrl;
+    }
+    
+    // If it's a relative URL starting with /api/photos/, construct full URL
+    if (photoUrl.startsWith('/api/photos/')) {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const fullUrl = `${apiUrl}${photoUrl}`;
+      // Add cache-busting parameter to ensure fresh photos are loaded
+      const separator = fullUrl.includes('?') ? '&' : '?';
+      return `${fullUrl}${separator}t=${Date.now()}`;
+    }
+    
+    // If it's just a filename, construct the full photo URL
+    if (photoUrl.match(/^[a-f0-9-]+\.jpg$/)) {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      return `${apiUrl}/api/photos/${photoUrl}?t=${Date.now()}`;
+    }
+    
+    return photoUrl;
+  };
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string>('');
   const [crop, setCrop] = useState<Crop>({
@@ -238,7 +265,7 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
       <div className="photo-upload-container">
         {currentPhotoUrl && !showCropper && (
           <div className="current-photo">
-            <img src={currentPhotoUrl} alt="Current photo" className="photo-preview" />
+            <img src={getFullPhotoUrl(currentPhotoUrl)} alt="Current photo" className="photo-preview" />
             <div className="photo-actions">
               <button 
                 type="button" 

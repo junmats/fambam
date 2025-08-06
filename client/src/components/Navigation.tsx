@@ -109,6 +109,7 @@ const Navigation: React.FC = () => {
     logout();
     setLinkedMember(null); // Clear linked member data
     setShowProfileDropdown(false);
+    setShowMobileMenu(false); // Close mobile menu
     navigate('/');
   };
 
@@ -148,6 +149,7 @@ const Navigation: React.FC = () => {
 
   const handleFamilyTreeClick = () => {
     navigate('/family-tree');
+    setShowMobileMenu(false); // Close mobile menu
   };
 
   // Dashboard action handlers
@@ -246,10 +248,10 @@ const Navigation: React.FC = () => {
           ) : (
             <>
               <li className="nav-item">
-                <Link to="/login" className="nav-link">Login</Link>
+                <Link to="/login" className="nav-link" onClick={() => setShowMobileMenu(false)}>Login</Link>
               </li>
               <li className="nav-item">
-                <Link to="/register" className="nav-link">Register</Link>
+                <Link to="/register" className="nav-link" onClick={() => setShowMobileMenu(false)}>Register</Link>
               </li>
             </>
           )}

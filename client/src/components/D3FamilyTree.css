@@ -44,12 +44,6 @@
   background: linear-gradient(135deg, var(--tree-fb-gray-100) 0%, #e8f4fd 100%);
 }
 
-.family-tree-loading::before {
-  content: '🌳';
-  margin-right: 12px;
-  font-size: 24px;
-}
-
 /* D3 Tree Container */
 .rd3t-tree-container {
   width: 100%;
@@ -164,10 +158,10 @@
   font-weight: 600;
 }
 
-/* Node Content Text Styling - Larger fonts */
+/* Node Content Text Styling - Consistent fonts for all nodes */
 .node-name {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500; /* Reduced from 600 to match other elements */
   fill: var(--tree-fb-text);
 }
 
@@ -486,20 +480,22 @@
 /* Responsive Design for Tree Nodes */
 @media (max-width: 768px) {
   .node-name {
-    font-size: 16px;
+    font-size: 20px; /* Increased for better tablet readability */
   }
   
   .node-details {
-    font-size: 12px;
+    font-size: 14px; /* Increased for better tablet readability */
   }
   
   .node-spouse {
-    font-size: 14px;
+    font-size: 16px; /* Increased for better tablet readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-occupation,
   .node-dates {
-    font-size: 11px;
+    font-size: 14px; /* Increased for better tablet readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .rd3t-tree-container .rd3t-link {
@@ -520,15 +516,20 @@
 
 @media (max-width: 480px) {
   .node-name {
-    font-size: 14px;
+    font-size: 22px; /* Increased from 14px for better mobile readability */
   }
   
   .node-details {
-    font-size: 10px;
+    font-size: 16px; /* Increased from 10px for better mobile readability */
   }
   
   .node-spouse {
-    font-size: 12px;
+    font-size: 18px; /* Increased from 12px for better mobile readability */
+  }
+  
+  .node-occupation,
+  .node-dates {
+    font-size: 15px; /* Added mobile-specific styling for better readability */
   }
   
   .zoom-controls {
@@ -556,44 +557,44 @@
   }
   
   .rd3t-tree-container .rd3t-node text {
-    font-size: 12px;
-    font-weight: 300;
+    font-size: 14px; /* Increased for better tablet readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-name {
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 20px; /* Increased for better tablet readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-details {
-    font-size: 10px;
-    font-weight: 300;
+    font-size: 14px; /* Increased for better tablet readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-spouse {
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 16px; /* Increased for better tablet readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
 }
 
 @media (max-width: 768px) {
   .rd3t-tree-container .rd3t-node text {
-    font-size: 11px;
-    font-weight: 300;
-  }
-  
-  .node-name {
-    font-size: 12px;
+    font-size: 14px; /* Increased for better tablet readability */
     font-weight: 400;
   }
   
+  .node-name {
+    font-size: 20px; /* Increased for better tablet readability */
+    font-weight: 600;
+  }
+  
   .node-details {
-    font-size: 9px;
-    font-weight: 300;
+    font-size: 14px; /* Increased for better tablet readability */
+    font-weight: 400;
   }
   
   .node-spouse {
-    font-size: 10px;
+    font-size: 16px; /* Increased for better tablet readability */
     font-weight: 400;
   }
   
@@ -605,23 +606,29 @@
 
 @media (max-width: 480px) {
   .rd3t-tree-container .rd3t-node text {
-    font-size: 10px;
-    font-weight: 300;
+    font-size: 16px; /* Increased for better mobile readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-name {
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 22px; /* Increased for better mobile readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-details {
-    font-size: 8px;
-    font-weight: 300;
+    font-size: 16px; /* Increased for better mobile readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
   
   .node-spouse {
-    font-size: 9px;
-    font-weight: 400;
+    font-size: 18px; /* Increased for better mobile readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
+  }
+  
+  .node-occupation,
+  .node-dates {
+    font-size: 15px; /* Added mobile-specific styling for better readability */
+    font-weight: 500; /* Consistent font weight for all nodes */
   }
 }
 

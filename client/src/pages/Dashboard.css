@@ -1469,6 +1469,8 @@ body {
   font-size: 14px;
   background: var(--facebook-white);
   transition: all 0.2s ease;
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  max-width: 100%; /* Prevent overflow beyond container */
 }
 
 .form-group input:focus,
@@ -1487,6 +1489,8 @@ body {
 .form-group textarea {
   resize: vertical;
   min-height: 80px;
+  max-width: 100%; /* Ensure textarea doesn't exceed container */
+  box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
 /* Relationship Type Selector */
@@ -2096,14 +2100,14 @@ body {
 /* Modal Overlay and Styling - Mobile First */
 .modal-overlay {
   position: fixed;
-  top: 0;
+  top: 64px; /* Position below navigation bar */
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Align to top instead of center */
   z-index: 1000;
   backdrop-filter: blur(3px);
   padding: 20px;
@@ -2117,19 +2121,27 @@ body {
   box-shadow: 0 12px 40px rgba(30, 58, 138, 0.2);
   width: 100%;
   max-width: 95vw;
-  max-height: 80vh;
+  max-height: calc(100vh - 84px); /* Full height minus nav and padding */
   overflow: hidden;
+  border: 1px solid var(--family-bg-tertiary);
   display: flex;
   flex-direction: column;
+  margin-top: 0; /* Start from top of available space */
   animation: slideIn 0.3s ease-out;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  margin: auto;
+  contain: layout; /* Prevent child elements from affecting outside layout */
+}
+
+/* Ensure all modal children stay within bounds */
+.member-form-modal *,
+.relationship-form-modal * {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Tablet and desktop modal */
 @media (min-width: 768px) {
   .modal-overlay {
-    align-items: center;
+    align-items: flex-start; /* Keep modals at top */
     padding: 20px;
   }
   
@@ -2160,6 +2172,8 @@ body {
   padding: 20px 24px;
   border-bottom: 1px solid rgba(16, 185, 129, 0.2);
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px 16px 0 0; /* Match parent modal border radius at top */
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .modal-header h2 {
@@ -2197,8 +2211,10 @@ body {
 .modal-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal overflow */
   padding: 20px 24px;
   background-color: #ffffff;
+  border-radius: 0 0 16px 16px; /* Match parent modal border radius at bottom */
 }
 
 /* Fix for mobile modal select dropdowns */
@@ -2271,13 +2287,13 @@ body {
 /* Member Profile Modal Styles - Improved Design */
 .member-profile-overlay {
   position: fixed;
-  top: 0;
+  top: 64px; /* Position below navigation bar */
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Align to top instead of center */
   justify-content: center;
   z-index: 99999;
   backdrop-filter: blur(5px);
@@ -2290,24 +2306,31 @@ body {
   border-radius: 16px;
   max-width: 800px;
   width: 95%;
-  max-height: 80vh;
+  max-height: calc(100vh - 84px); /* Full height minus nav and padding */
   display: flex;
   flex-direction: column;
   box-shadow: 0 25px 50px rgba(37, 99, 235, 0.25);
   overflow: hidden;
   position: relative;
   border: 1px solid var(--family-bg-tertiary);
-  margin: auto;
+  margin-top: 0; /* Start from top of available space */
+  contain: layout; /* Prevent child elements from affecting outside layout */
+}
+
+/* Ensure all member profile modal children stay within bounds */
+.member-profile-modal * {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   .member-profile-overlay {
-    align-items: center;
+    align-items: flex-start; /* Keep at top */
     padding: 20px;
   }
   
   .member-profile-modal {
-    max-height: 80vh;
+    max-height: calc(100vh - 84px); /* Full height minus nav and padding */
     width: 90%;
     border-radius: 16px;
   }

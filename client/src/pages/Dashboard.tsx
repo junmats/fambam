@@ -188,6 +188,33 @@ const Dashboard: React.FC = () => {
   // Member profile modal state
   const [showMemberProfile, setShowMemberProfile] = useState(false);
   const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null);
+
+  // Utility function to resolve photo URLs to full URLs
+  const getFullPhotoUrl = (photoUrl: string | undefined): string | undefined => {
+    if (!photoUrl) return undefined;
+    
+    // If it's already a full URL, return as is
+    if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
+      return photoUrl;
+    }
+    
+    // If it's a relative URL starting with /api/photos/, construct full URL
+    if (photoUrl.startsWith('/api/photos/')) {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const fullUrl = `${apiUrl}${photoUrl}`;
+      // Add cache-busting parameter to ensure fresh photos are loaded
+      const separator = fullUrl.includes('?') ? '&' : '?';
+      return `${fullUrl}${separator}t=${Date.now()}`;
+    }
+    
+    // If it's just a filename, construct the full photo URL
+    if (photoUrl.match(/^[a-f0-9-]+\.jpg$/)) {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      return `${apiUrl}/api/photos/${photoUrl}?t=${Date.now()}`;
+    }
+    
+    return photoUrl;
+  };
   
   // Redirect to login if not authenticated and not in guest mode
   useEffect(() => {
@@ -418,7 +445,7 @@ const Dashboard: React.FC = () => {
               }
             });
             
-            resolve(response.data.fileName);
+            resolve(response.data.photoUrl);
           } catch (error: any) {
             console.error('Error uploading photo:', error);
             reject(new Error(error.response?.data?.error || 'Failed to upload photo'));
@@ -1667,7 +1694,7 @@ const Dashboard: React.FC = () => {
                       <div className="parent-photo">
                         {family.spouse1.photo_url ? (
                           <img 
-                            src={family.spouse1.photo_url} 
+                            src={getFullPhotoUrl(family.spouse1.photo_url)} 
                             alt={getFullName(family.spouse1)}
                             className="parent-photo-img"
                           />
@@ -1693,7 +1720,7 @@ const Dashboard: React.FC = () => {
                         <div className="parent-photo">
                           {family.spouse2.photo_url ? (
                             <img 
-                              src={family.spouse2.photo_url} 
+                              src={getFullPhotoUrl(family.spouse2.photo_url)} 
                               alt={getFullName(family.spouse2)}
                               className="parent-photo-img"
                             />
@@ -1726,7 +1753,7 @@ const Dashboard: React.FC = () => {
                           <div className="child-photo">
                             {child.photo_url ? (
                               <img 
-                                src={child.photo_url} 
+                                src={getFullPhotoUrl(child.photo_url)} 
                                 alt={getFullName(child)}
                                 className="child-photo-img"
                               />
@@ -1794,7 +1821,7 @@ const Dashboard: React.FC = () => {
                         <div className="member-photo">
                           {member.photo_url ? (
                             <img 
-                              src={member.photo_url} 
+                              src={getFullPhotoUrl(member.photo_url)} 
                               alt={`${member.first_name} ${member.last_name}`}
                               className="member-photo-img"
                             />
@@ -1986,7 +2013,7 @@ const Dashboard: React.FC = () => {
                         <div className="member-photo">
                           {member.photo_url ? (
                             <img 
-                              src={member.photo_url} 
+                              src={getFullPhotoUrl(member.photo_url)} 
                               alt={`${member.first_name} ${member.last_name}`}
                               className="member-photo-img"
                             />
@@ -2171,7 +2198,7 @@ const Dashboard: React.FC = () => {
                               <div className="member-photo">
                                 {member.photo_url ? (
                                   <img 
-                                    src={member.photo_url} 
+                                    src={getFullPhotoUrl(member.photo_url)} 
                                     alt={`${member.first_name} ${member.last_name}`}
                                     className="member-photo-img"
                                   />
@@ -2349,7 +2376,7 @@ const Dashboard: React.FC = () => {
                                 <div className="member-photo">
                                   {member.photo_url ? (
                                     <img 
-                                      src={member.photo_url} 
+                                      src={getFullPhotoUrl(member.photo_url)} 
                                       alt={`${member.first_name} ${member.last_name}`}
                                       className="member-photo-img"
                                     />
@@ -2573,7 +2600,7 @@ const Dashboard: React.FC = () => {
                 <div className="profile-photo-section">
                   {selectedMember.photo_url ? (
                     <img 
-                      src={selectedMember.photo_url} 
+                      src={getFullPhotoUrl(selectedMember.photo_url)} 
                       alt={`${selectedMember.first_name} ${selectedMember.last_name}`}
                       className="profile-photo"
                     />
