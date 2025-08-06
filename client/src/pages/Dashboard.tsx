@@ -1089,7 +1089,14 @@ const Dashboard: React.FC = () => {
   const sortedAndFilteredMembers = sortMembers(filterMembers(familyMembers, searchTerm), sortConfig);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="dashboard-loading-container">
+        <div className="loading">
+          <i className="bi bi-arrow-clockwise loading-spinner"></i>
+          Loading...
+        </div>
+      </div>
+    );
   }
 
   return (

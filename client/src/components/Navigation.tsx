@@ -74,7 +74,7 @@ const Navigation: React.FC = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
-      if (!target.closest('.profile-dropdown-container')) {
+      if (!target.closest('.nav-profile-container')) {
         setShowProfileDropdown(false);
       }
     };
@@ -153,6 +153,7 @@ const Navigation: React.FC = () => {
   // Dashboard action handlers
   const handleAddMember = () => {
     setShowForm(!showForm);
+    setShowMobileMenu(false); // Close mobile menu
     // Trigger Dashboard component to update
     const event = new CustomEvent('dashboard-toggle-form', { detail: { showForm: !showForm } });
     window.dispatchEvent(event);
@@ -160,12 +161,14 @@ const Navigation: React.FC = () => {
 
   const handleAddRelationship = () => {
     setShowRelationshipForm(!showRelationshipForm);
+    setShowMobileMenu(false); // Close mobile menu
     // Trigger Dashboard component to update
     const event = new CustomEvent('dashboard-toggle-relationship', { detail: { showRelationshipForm: !showRelationshipForm } });
     window.dispatchEvent(event);
   };
 
   const handleFixGenerations = () => {
+    setShowMobileMenu(false); // Close mobile menu
     // Trigger Dashboard component to fix generations
     const event = new CustomEvent('dashboard-fix-generations');
     window.dispatchEvent(event);
@@ -178,11 +181,6 @@ const Navigation: React.FC = () => {
           <i className="bi bi-house-heart"></i>
           FamALLE
         </Link>
-        
-        {/* Mobile hamburger button */}
-        <button className="nav-toggle" onClick={toggleMobileMenu}>
-          <i className={`bi ${showMobileMenu ? 'bi-x' : 'bi-list'}`}></i>
-        </button>
         
         <ul className={`nav-menu ${showMobileMenu ? 'mobile-open' : ''}`}>
           <li className="nav-item">
@@ -207,28 +205,30 @@ const Navigation: React.FC = () => {
                 </button>
               </li>
               
-              {/* Dashboard Actions */}
+              {/* Dashboard Actions - only show in mobile menu */}
               {isDashboard && isAdmin && (
                 <>
-                  <li className="nav-item dashboard-actions">
+                  <li className="nav-item dashboard-actions mobile-only">
                     <button 
                       className={`nav-action-btn ${showForm ? 'active' : ''}`}
                       onClick={handleAddMember}
                       title={showForm ? 'Cancel Adding Member' : 'Add Family Member'}
                     >
                       <i className={`bi ${showForm ? 'bi-x-lg' : 'bi-person-plus'}`}></i>
+                      <span className="mobile-label">{showForm ? 'Cancel' : 'Add Member'}</span>
                     </button>
                   </li>
-                  <li className="nav-item dashboard-actions">
+                  <li className="nav-item dashboard-actions mobile-only">
                     <button 
                       className={`nav-action-btn ${showRelationshipForm ? 'active' : ''}`}
                       onClick={handleAddRelationship}
                       title={showRelationshipForm ? 'Cancel Adding Relationship' : 'Add Relationship'}
                     >
                       <i className={`bi ${showRelationshipForm ? 'bi-x-lg' : 'bi-people'}`}></i>
+                      <span className="mobile-label">{showRelationshipForm ? 'Cancel' : 'Add Relationship'}</span>
                     </button>
                   </li>
-                  <li className="nav-item dashboard-actions">
+                  <li className="nav-item dashboard-actions mobile-only">
                     <button 
                       className="nav-action-btn warning"
                       onClick={handleFixGenerations}
@@ -236,13 +236,68 @@ const Navigation: React.FC = () => {
                       title="Fix generation levels based on family relationships"
                     >
                       <i className={`bi ${fixingGenerations ? 'bi-arrow-repeat' : 'bi-gear'}`}></i>
+                      <span className="mobile-label">{fixingGenerations ? 'Fixing...' : 'Fix Generations'}</span>
                     </button>
                   </li>
                 </>
               )}
               
-              {/* Profile Dropdown */}
-              <li className="nav-item profile-dropdown-container">
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link to="/login" className="nav-link">Login</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/register" className="nav-link">Register</Link>
+              </li>
+            </>
+          )}
+        </ul>
+        
+        {/* Right side section - Desktop dashboard actions and profile */}
+        <div className="nav-right-section">
+          {/* Desktop Dashboard Actions */}
+          {isAuthenticated && isDashboard && isAdmin && (
+            <div className="desktop-dashboard-actions">
+              <button 
+                className={`nav-action-btn ${showForm ? 'active' : ''}`}
+                onClick={handleAddMember}
+                title={showForm ? 'Cancel Adding Member' : 'Add Family Member'}
+              >
+                <i className={`bi ${showForm ? 'bi-x-lg' : 'bi-person-plus'}`}></i>
+                <span className="desktop-label">{showForm ? 'Cancel' : 'Add Member'}</span>
+              </button>
+              <button 
+                className={`nav-action-btn ${showRelationshipForm ? 'active' : ''}`}
+                onClick={handleAddRelationship}
+                title={showRelationshipForm ? 'Cancel Adding Relationship' : 'Add Relationship'}
+              >
+                <i className={`bi ${showRelationshipForm ? 'bi-x-lg' : 'bi-people'}`}></i>
+                <span className="desktop-label">{showRelationshipForm ? 'Cancel' : 'Add Relationship'}</span>
+              </button>
+              <button 
+                className="nav-action-btn warning"
+                onClick={handleFixGenerations}
+                disabled={fixingGenerations}
+                title="Fix generation levels based on family relationships"
+              >
+                <i className={`bi ${fixingGenerations ? 'bi-arrow-repeat' : 'bi-gear'}`}></i>
+                <span className="desktop-label">{fixingGenerations ? 'Fixing...' : 'Fix Generations'}</span>
+              </button>
+            </div>
+          )}
+          
+          {/* Mobile hamburger button and Profile */}
+          <div className="mobile-controls">
+            {/* Mobile hamburger button - only visible on mobile */}
+            <button className="nav-toggle" onClick={toggleMobileMenu}>
+              <i className={`bi ${showMobileMenu ? 'bi-x' : 'bi-list'}`}></i>
+            </button>
+            
+            {/* Profile button */}
+            {isAuthenticated && (
+              <div className="nav-profile-container">
                 <button 
                   className="profile-button"
                   onClick={toggleProfileDropdown}
@@ -293,7 +348,10 @@ const Navigation: React.FC = () => {
                       <Link 
                         to="/change-password"
                         className="dropdown-item"
-                        onClick={() => setShowProfileDropdown(false)}
+                        onClick={() => {
+                          setShowProfileDropdown(false);
+                          setShowMobileMenu(false);
+                        }}
                       >
                         <i className="bi bi-key"></i>
                         <span>Change Password</span>
@@ -308,19 +366,10 @@ const Navigation: React.FC = () => {
                     </button>
                   </div>
                 )}
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/register" className="nav-link">Register</Link>
-              </li>
-            </>
-          )}
-        </ul>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );

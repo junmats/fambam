@@ -84,7 +84,7 @@ const WelcomeTest: React.FC = () => {
             borderRadius: '10px',
             textAlign: 'center'
           }}>
-            <h2>🌳 Welcome new ka-FamALLE!!</h2>
+            <h2>🌳 Welcome new ALLE Member!!</h2>
             <p>Ready to explore your roots?</p>
             <button 
               onClick={() => {
