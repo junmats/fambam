@@ -2575,7 +2575,7 @@ const Dashboard: React.FC = () => {
                   {selectedMember.photo_url ? (
                     <img 
                       src={getFullPhotoUrl(selectedMember.photo_url)} 
-                      alt={`${selectedMember.first_name} ${selectedMember.last_name}`}
+                      alt={`${selectedMember.first_name || ''} ${selectedMember.last_name || ''}`}
                       className="profile-photo"
                     />
                   ) : (
@@ -2587,7 +2587,7 @@ const Dashboard: React.FC = () => {
                 
                 <div className="profile-title-section">
                   <h1 className="profile-name">
-                    {selectedMember.first_name} {selectedMember.middle_name && `${selectedMember.middle_name} `}{selectedMember.last_name}
+                    {selectedMember.first_name || 'Unknown'} {selectedMember.middle_name && `${selectedMember.middle_name} `}{selectedMember.last_name || ''}
                   </h1>
                   {selectedMember.maiden_name && (
                     <p className="maiden-name-subtitle">y {selectedMember.maiden_name}</p>
@@ -2609,7 +2609,7 @@ const Dashboard: React.FC = () => {
                   <div className="detail-grid">
                     <div className="detail-item">
                       <strong>Gender:</strong> 
-                      <span>{selectedMember.gender.charAt(0).toUpperCase() + selectedMember.gender.slice(1)}</span>
+                      <span>{selectedMember.gender ? selectedMember.gender.charAt(0).toUpperCase() + selectedMember.gender.slice(1) : 'No Information'}</span>
                     </div>
                     <div className="detail-item">
                       <strong>Birth Date:</strong> 
