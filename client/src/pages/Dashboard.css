@@ -2219,6 +2219,10 @@ body {
   padding: 20px 24px;
   background-color: #ffffff;
   border-radius: 0 0 16px 16px; /* Match parent modal border radius at bottom */
+  /* Ensure proper scrolling behavior */
+  -webkit-overflow-scrolling: touch;
+  /* Maintain minimum height to allow scrolling */
+  min-height: 0;
 }
 
 /* Fix for mobile modal select dropdowns */
@@ -2248,46 +2252,10 @@ body {
     padding-right: 40px;
   }
   
-  /* Ensure modal content doesn't clip select dropdowns */
-  .member-form-modal,
-  .relationship-form-modal {
-    overflow: visible;
-    /* Fix transform issues that can affect select positioning */
-    transform: none;
-    animation: none;
-  }
-  
-  .modal-content {
-    overflow: visible;
-    /* Ensure no transform inheritance */
-    transform: none;
-  }
-  
-  /* But keep the modal overlay scrollable */
-  .modal-overlay {
-    overflow-y: auto;
-    /* Remove any transforms that might affect child positioning */
-    transform: none;
-    /* Use standard positioning for better dropdown behavior */
-    align-items: flex-start;
-    padding-top: 8px;
-  }
-  
   /* Fix for form groups containing selects */
   .form-group {
     /* Ensure form groups don't have overflow hidden */
     overflow: visible;
-  }
-  
-  /* Fix for any webkit transforms on mobile */
-  .modal-overlay,
-  .member-form-modal,
-  .relationship-form-modal,
-  .modal-content {
-    -webkit-transform: none;
-    transform: none;
-    -webkit-backface-visibility: visible;
-    backface-visibility: visible;
   }
 }
 
@@ -2424,6 +2392,10 @@ body {
   flex-direction: column;
   gap: 20px;
   scroll-behavior: smooth;
+  /* Ensure proper scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
+  /* Maintain minimum height to allow scrolling */
+  min-height: 0;
 }
 
 .profile-photo-section {

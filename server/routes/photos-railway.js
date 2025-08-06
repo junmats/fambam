@@ -147,6 +147,12 @@ router.get('/:filename', (req, res) => {
     return res.status(400).json({ error: 'Invalid filename' });
   }
   
+  // Add CORS headers for cross-origin photo access
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+  
   console.log('Serving photo from:', filePath);
   
   res.sendFile(filePath, (err) => {

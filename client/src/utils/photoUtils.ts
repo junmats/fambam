@@ -13,7 +13,8 @@ export const getFullPhotoUrl = (photoUrl: string | undefined): string | undefine
   }
   
   // If it's a relative path, prepend the API base URL
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+  // Use REACT_APP_API_URL (not REACT_APP_API_BASE_URL) to match other components
+  const apiBaseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
   const separator = photoUrl.includes('?') ? '&' : '?';
   return `${apiBaseUrl}${photoUrl}${separator}t=${Date.now()}`;
 };
