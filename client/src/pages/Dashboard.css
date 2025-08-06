@@ -2110,8 +2110,10 @@ body {
   align-items: flex-start; /* Align to top instead of center */
   z-index: 1000;
   backdrop-filter: blur(3px);
-  padding: 20px;
+  padding: 10px;
   overflow-y: auto;
+  /* Ensure proper scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
 .member-form-modal,
@@ -2121,7 +2123,9 @@ body {
   box-shadow: 0 12px 40px rgba(30, 58, 138, 0.2);
   width: 100%;
   max-width: 95vw;
-  max-height: calc(100vh - 84px); /* Full height minus nav and padding */
+  /* Use dynamic height that accounts for available space */
+  max-height: calc(100vh - 74px); /* Navigation (64px) + padding (10px) */
+  min-height: auto;
   overflow: hidden;
   border: 1px solid var(--family-bg-tertiary);
   display: flex;
@@ -2149,7 +2153,7 @@ body {
   .relationship-form-modal {
     width: 90%;
     max-width: 800px;
-    max-height: 80vh;
+    max-height: calc(100vh - 104px); /* Navigation (64px) + padding (40px) */
     border-radius: 16px;
   }
 }
@@ -2219,6 +2223,17 @@ body {
 
 /* Fix for mobile modal select dropdowns */
 @media (max-width: 768px) {
+  .modal-overlay {
+    padding: 8px;
+  }
+  
+  .member-form-modal,
+  .relationship-form-modal {
+    max-height: calc(100vh - 72px); /* Navigation (64px) + padding (8px) */
+    width: 100%;
+    border-radius: 12px;
+  }
+  
   .modal-content select {
     position: relative;
     z-index: 1002;
@@ -2255,7 +2270,7 @@ body {
     transform: none;
     /* Use standard positioning for better dropdown behavior */
     align-items: flex-start;
-    padding-top: 20px;
+    padding-top: 8px;
   }
   
   /* Fix for form groups containing selects */
@@ -2273,6 +2288,31 @@ body {
     transform: none;
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
+  }
+}
+
+/* Additional mobile styles for very small screens */
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 5px;
+  }
+  
+  .member-form-modal,
+  .relationship-form-modal {
+    max-height: calc(100vh - 69px); /* Navigation (64px) + padding (5px) */
+    border-radius: 8px;
+  }
+  
+  .modal-header {
+    padding: 16px 20px;
+  }
+  
+  .modal-content {
+    padding: 16px 20px;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.25rem;
   }
 }
 
@@ -2297,8 +2337,10 @@ body {
   justify-content: center;
   z-index: 99999;
   backdrop-filter: blur(5px);
-  padding: 20px;
+  padding: 10px;
   overflow-y: auto;
+  /* Ensure proper scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
 .member-profile-modal {
@@ -2306,7 +2348,9 @@ body {
   border-radius: 16px;
   max-width: 800px;
   width: 95%;
-  max-height: calc(100vh - 84px); /* Full height minus nav and padding */
+  /* Use dynamic height that accounts for available space */
+  max-height: calc(100vh - 74px); /* Navigation (64px) + padding (10px) */
+  min-height: auto;
   display: flex;
   flex-direction: column;
   box-shadow: 0 25px 50px rgba(37, 99, 235, 0.25);
@@ -2330,7 +2374,7 @@ body {
   }
   
   .member-profile-modal {
-    max-height: calc(100vh - 84px); /* Full height minus nav and padding */
+    max-height: calc(100vh - 104px); /* Navigation (64px) + padding (40px) */
     width: 90%;
     border-radius: 16px;
   }
@@ -2675,11 +2719,13 @@ body {
 
 @media (max-width: 480px) {
   .member-profile-overlay {
-    padding: 10px;
+    padding: 5px;
   }
   
   .member-profile-modal {
-    max-height: 95vh;
+    max-height: calc(100vh - 69px); /* Navigation (64px) + padding (5px) */
+    width: 100%;
+    border-radius: 12px;
   }
   
   .profile-header-section {
