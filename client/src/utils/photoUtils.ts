@@ -12,9 +12,20 @@ export const getFullPhotoUrl = (photoUrl: string | undefined): string | undefine
     return `${photoUrl}${separator}t=${Date.now()}`;
   }
   
-  // If it's a relative path, prepend the API base URL
-  // Use REACT_APP_API_URL (not REACT_APP_API_BASE_URL) to match other components
-  const apiBaseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+  // Get API base URL with multiple fallback strategies
+  let apiBaseUrl = process.env.REACT_APP_API_URL;
+  
+  // If no environment variable, try to detect production vs development
+  if (!apiBaseUrl) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // Development environment
+      apiBaseUrl = 'http://localhost:5001';
+    } else {
+      // Production environment - use Railway API
+      apiBaseUrl = 'https://alle.up.railway.app';
+    }
+  }
+  
   const separator = photoUrl.includes('?') ? '&' : '?';
   return `${apiBaseUrl}${photoUrl}${separator}t=${Date.now()}`;
 };

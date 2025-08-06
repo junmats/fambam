@@ -344,7 +344,16 @@ export const uploadPhoto = async (file: File, cropData: PixelCrop): Promise<stri
   formData.append('cropData', JSON.stringify(cropData));
 
   const token = localStorage.getItem('token');
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  
+  // Get API URL with fallback logic matching photoUtils
+  let apiUrl = process.env.REACT_APP_API_URL;
+  if (!apiUrl) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      apiUrl = 'http://localhost:5001';
+    } else {
+      apiUrl = 'https://alle.up.railway.app';
+    }
+  }
   
   const response = await fetch(`${apiUrl}/api/photos/upload`, {
     method: 'POST',
