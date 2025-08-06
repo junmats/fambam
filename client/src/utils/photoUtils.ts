@@ -6,6 +6,11 @@
 export const getFullPhotoUrl = (photoUrl: string | undefined): string | undefined => {
   if (!photoUrl) return undefined;
   
+  // If it's a data URL (base64), return as-is
+  if (photoUrl.startsWith('data:')) {
+    return photoUrl;
+  }
+  
   // If it's already a full URL (starts with http), return as-is with cache-busting
   if (photoUrl.startsWith('http')) {
     const separator = photoUrl.includes('?') ? '&' : '?';

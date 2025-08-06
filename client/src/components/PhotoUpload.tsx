@@ -51,7 +51,8 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
       setSelectedFile(file);
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        setImageSrc(reader.result?.toString() || '');
+        const imageSrc = reader.result?.toString() || '';
+        setImageSrc(imageSrc);
         setShowCropper(true);
       });
       reader.readAsDataURL(file);
@@ -75,13 +76,6 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
       y: y
     };
     
-    console.log('🔍 onImageLoad - Setting initial crop:', {
-      imageSize: { width, height },
-      minDimension,
-      cropSize,
-      initialCrop
-    });
-    
     setCrop(initialCrop);
     setCompletedCrop(initialCrop);
   }, []);
@@ -103,10 +97,6 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
       return;
     }
 
-    console.log('🔍 DEBUG: Starting crop processing...');
-    console.log('  Selected file:', selectedFile.name, selectedFile.size);
-    console.log('  Completed crop data:', completedCrop);
-
     // Generate a circular preview URL for display
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -115,9 +105,6 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
       const img = new Image();
       
       img.onload = () => {
-        console.log('🔍 DEBUG: Image loaded for processing, size:', img.width, 'x', img.height);
-        console.log('🔍 DEBUG: Crop data received:', completedCrop);
-        
         // Get the actual displayed image element to calculate scaling
         const imgElement = imgRef.current;
         if (!imgElement) {
@@ -134,23 +121,11 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
         const scaleX = naturalWidth / displayedWidth;
         const scaleY = naturalHeight / displayedHeight;
         
-        console.log('🔍 DEBUG: Scaling factors:', {
-          displayed: { width: displayedWidth, height: displayedHeight },
-          natural: { width: naturalWidth, height: naturalHeight },
-          scaleX,
-          scaleY
-        });
-        
         // Convert crop coordinates to natural image coordinates
         const scaledCropX = completedCrop.x * scaleX;
         const scaledCropY = completedCrop.y * scaleY;
         const scaledCropWidth = completedCrop.width * scaleX;
         const scaledCropHeight = completedCrop.height * scaleY;
-        
-        console.log('🔍 DEBUG: Scaled crop coordinates:', {
-          original: { x: completedCrop.x, y: completedCrop.y, width: completedCrop.width, height: completedCrop.height },
-          scaled: { x: scaledCropX, y: scaledCropY, width: scaledCropWidth, height: scaledCropHeight }
-        });
         
         // Set canvas size to the scaled crop size
         canvas.width = scaledCropWidth;
@@ -176,18 +151,8 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
           scaledCropHeight
         );
         
-        console.log('🔍 DEBUG: Drawing with scaled crop params:', {
-          sourceX: scaledCropX,
-          sourceY: scaledCropY,
-          sourceWidth: scaledCropWidth,
-          sourceHeight: scaledCropHeight,
-          destWidth: scaledCropWidth,
-          destHeight: scaledCropHeight
-        });
-        
         // Generate preview URL
         const previewUrl = canvas.toDataURL('image/jpeg', 0.8);
-        onPhotoChange(previewUrl);
         
         // Pass the scaled crop data to parent for upload
         const scaledCropData = {
@@ -198,7 +163,7 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
           unit: 'px' as const
         };
         
-        console.log('🔍 DEBUG: Passing scaled crop data:', scaledCropData);
+        onPhotoChange(previewUrl);
         onPhotoDataChange(selectedFile, scaledCropData);
         
         setShowCropper(false);
@@ -287,7 +252,6 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({
                 crop={crop}
                 onChange={onCropChange}
                 onComplete={(c) => {
-                  console.log('🔍 Crop completed:', c);
                   setCompletedCrop(c);
                 }}
                 aspect={1} // Square aspect ratio

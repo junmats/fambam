@@ -419,21 +419,6 @@ const D3FamilyTree: React.FC<D3FamilyTreeProps> = ({ hierarchyData }) => {
           >
             {nodeDatum.name}
           </text>
-          
-          {/* Living/Deceased status icon - Adjusted position */}
-          <foreignObject x={nodeDatum.name.length * 3 + 40} y={spouseName ? "-40" : "-6"} width="16" height="16">
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              fontSize: '16px',
-              color: isLiving ? '#2e7d2e' : '#d32f2f',
-              height: '16px',
-              transform: 'translateY(0px)'
-            }}>
-              <i className={`bi ${isLiving ? 'bi-heart-pulse-fill' : 'bi-x-circle-fill'}`}></i>
-            </div>
-          </foreignObject>
         </g>
         
         {/* Spouse information with heart and date in between */}
@@ -484,21 +469,6 @@ const D3FamilyTree: React.FC<D3FamilyTreeProps> = ({ hierarchyData }) => {
               >
                 {spouseName}
               </text>
-              
-              {/* Spouse status icon - Perfectly aligned with text center */}
-              <foreignObject x={spouseName.length * 3 + 30} y="29" width="16" height="16">
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  fontSize: '16px',
-                  color: spouseLiving ? '#2e7d2e' : '#d32f2f',
-                  height: '16px',
-                  transform: 'translateY(0px)'
-                }}>
-                  <i className={`bi ${spouseLiving ? 'bi-heart-pulse-fill' : 'bi-x-circle-fill'}`}></i>
-                </div>
-              </foreignObject>
             </g>
           </>
         )}
