@@ -111,6 +111,9 @@ uploads/
 *.backup
 *.bak
 
+# Photo backups (local only)
+photo-backup/
+
 # Local development files
 test-*.js
 debug-*.js
